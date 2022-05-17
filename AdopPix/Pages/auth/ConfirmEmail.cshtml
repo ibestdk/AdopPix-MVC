@@ -1,0 +1,23 @@
+﻿@page
+@model AdopPix.Pages.auth.ConfirmEmailModel
+@{
+    ViewBag.NavbarIsShow = true;
+}
+<div class="w-100 d-flex justify-content-center align-items-center mt-3" style="height: 75vh;">
+    <div class="h-75">
+        <div class="d-flex justify-content-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/1810/1810717.png" class="img-fluid w-25" />
+        </div>
+        <h3>@Model.Message</h3>
+        <div class="d-grid gap-2 mt-5">
+            @if(User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success w-100">let's auction !</a>
+            }
+            else
+            {
+                <a asp-page="/auth/login" class="btn btn-outline-success w-100">go to login</a>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*<form asp-action="Index" enctype="multipart/form-data">
+    <input type="file" name="file"/>
+    <input type="submit"/>
+</form>*@
+<img class="" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/banner.jpg")" style="object-fit: cover;width: 100%;height: 299px;border-radius: 5px;" />
+
+
+<hr />
+<div>
+    <h3>Notification Send</h3>
+    <form asp-action="Index">
+        <div class="mb-3">
+            <label>User Id</label>
+            <input type="text" name="UserId" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label>Description</label>
+            <input type="text" name="Description" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label>Redirect Url</label>
+            <input type="text" name="RedirectToUrl" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-success" value="send"/>
+        </div>
+    </form>
+</div>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/Post/Create">Go Post</a>
+</div>
+<div class="mb-3">
+    <a class="btn btn-primary" asp-controller="Post" asp-action="Index">Go See Post</a>
+</div>
+
+
+
+@if(ViewBag.Succeeded != null)
+{
+    @if(ViewBag.Succeeded)
+    {
+        <h1>Upload complete</h1>
+    }
+    else
+    {
+        <h1>Upload fail</h1>
+    }
+}
+<p></p>
+@if(!string.IsNullOrEmpty(ViewBag.Name))
+{
+    <img style="width: 30%;" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@ViewBag.Name}")"/>
+}
+

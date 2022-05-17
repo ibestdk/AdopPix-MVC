@@ -1,0 +1,400 @@
+﻿@model AuctionViewModel
+
+@{
+    ViewData["Title"] = "Courses details";
+}
+
+<div class="row" style="padding-top: 20px">
+    <div class="">
+        @if (@Model.UserName == User.Identity.Name)
+        {
+
+
+
+            <div style="display: flex;flex-direction: row;">
+                <div style="margin-left: 100%;margin-bottom: 50px;">
+
+                <div class="dropdown">
+                    <button class="more-btn btn bg-transparent dropdown-toggle" type="button" id="Notification" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-ellipsis-vertical fa-xl" style="color: #B7B7B7;"></i>
+                    </button>
+                    <ul class="dropdown-menu m-3 dropdown-menu-end more-menu overflow-auto" aria-labelledby="Notification" id="NotificationPush">
+
+
+                        <li class="li-more" style="  padding: 5px 10px;height: 50px;}">
+                            <a style="padding: 5px 10px;font-size: 1.4rem;"href="/Auction/Edit/@Model.AuctionId">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                Edit Auction
+                            </a>
+                        </li>
+                        <li class="li-more" style="  padding: 5px 10px;height: 50px;}">
+                            <a style="padding: 5px 10px;font-size: 1.4rem;" href="#popup1">
+                                <i class="fa-solid fa-trash-can"></i>
+                                Delete Auction
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+}
+
+        <div id="popup1" class="overlay">
+            <div class="">
+                <div class="alert-delete">
+                    <div style="  display: flex;flex-direction: column;}">
+                        <div>
+                            <p style="text-align: center;margin-top: 40px;">
+
+                                <i class="fa-solid fa-trash-can fa-6x"></i>
+                            </p>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <h1 style="text-align: center;">
+                                Do you really want to delete this auction?
+                            </h1>
+
+                        </div>
+                    </div>
+
+                    <div style="display: flex;flex-direction: row; margin-top: 40px;">
+                        <div class="" style="margin: 0 auto; display: grid;text-align: center;">
+                            <a href="/Auction/Delete/@Model.AuctionId" class="delete-btn" value="Delete">Delete</a>
+                        </div>
+
+                        <div class="" style="margin: 0 auto;">
+                            <a class="close cancel-btn" href="#">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+
+
+
+        <div style="display: flex;flex-direction: row;">
+
+
+            <div>
+                <img class="" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@Model.ImageId}")" style="object-fit: cover;width: 956px;height: 540px; border-radius: 20px;" />
+
+            </div>
+
+            <div style="display: flex;flex-direction: column; margin-left: 30px; ">
+                <div style="display: flex;">
+                    @*ส่วนของเวลา*@
+                    <h1 class="Time-bg">24</h1>
+                    <div style="padding-top: 16px;margin: 0 10px;">
+                        <h1>:</h1>
+                    </div>
+                    <h1 class="Time-bg">00</h1>
+                    <div style="padding-top: 16px;margin: 0 10px;">
+                        <h1>:</h1>
+                    </div>
+                    <h1 class="Time-bg">00</h1>
+                </div>
+                <div>
+                    <div>
+                        <div style="text-align: right;font-family: 'Roboto';font-style: normal;font-weight: 900;font-size: 48px;line-height: 56px;color: #A0D1BA;">
+
+                            @if (@Model.OpeningPrice == @Model.OpeningPrice)
+                            {
+                                <p style="font-size: 33px;">การประมูลยังไม่เริ่ม</p>
+                            }
+                            @if (@Model.OpeningPrice != @Model.OpeningPrice)
+                            {
+                                @Model.OpeningPrice
+                            }
+
+                        </div>
+                        <hr style="margin-top: 0px;margin-bottom: 0px;" />
+                        <div style="display: flex;flex-direction: row; float: right;margin-bottom: 30px;">
+                            <div style="font-weight: 900;font-size: 18px;line-height: 21px;color: #8D8D8D;">
+                                By
+                            </div>
+                            <div style="margin-left:15px; font-weight: 900;font-size: 18px;line-height: 21px;color: #000000;">
+                                ยังไม่มีคนเริ่มประมูล   @*คนประมูล*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <form>
+                    <div class="form-group" style="display: flex;flex-direction: row;">
+                        <div style="display: flex;flex-direction: row;background: #E3E3E3;border-radius: 50px;">
+                            <div>
+                                <input asp-for="OpeningPrice" type="number" class="form-control" style="background: none;border: none;text-align: right;" />
+                                <span asp-validation-for="OpeningPrice" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <input type="submit" value="Bids" class="btn btn-outline-success float-right" style="border: none;border-radius: 50px;background: #4F9FDA;width: 82px;color: white;font-weight: 800;" />
+
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            <div>
+                <div style="font-weight: 600;font-size: 2rem;margin-left: 30px;">
+
+
+                    @Model.Title
+                </div>
+            </div>
+            <div style="display: flex;flex-direction: row;">
+                <div>
+                    <img oncontextmenu="return false;" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@Model.AvaterName}")" style="border-radius: 50%; width: 80px; height: 80px; object-fit: cover; border:4px solid #EDEDED;top: 24%;background: white;" id="blah" />
+
+                </div>
+                <div style="margin-left: 20px;padding-top: 15px;">
+                    <div style="font-weight: 700;font-size: 28px;line-height: 36px;">
+                        @Model.UserName
+                    </div>
+                    <div style="font-weight: 900;font-size: 15px;line-height: 18px;color: #8C8C8C; padding-top: 10px;">
+                        @Model.Description
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div style="margin-top: 50px">
+
+            <h2 style="font-weight: 700;font-size: 24px;line-height: 30px;color: #CECECE;">History</h2>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+        $(function(){
+      $("button").click(function(){
+        $(".cover").fadeIn("300");
+      })
+      $(".cover,.close").click(function(){
+        $(".cover").fadeOut("300");
+      })
+      $(".contents").click(function(e){
+        e.stopPropagation();
+      })
+    })
+
+</script>
+
+<style>
+/*    ==================================================================================================*/
+
+
+
+
+.box {
+  width: 40%;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.2);
+  padding: 35px;
+  border: 2px solid #fff;
+  border-radius: 20px/50px;
+  background-clip: padding-box;
+  text-align: center;
+}
+
+.button {
+  font-size: 1em;
+  padding: 10px;
+  color: #fff;
+  border: 2px solid #06D85F;
+  border-radius: 20px/50px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+.button:hover {
+  background: #06D85F;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup .close {
+  transition: all 200ms;
+
+  text-decoration: none;
+}
+.popup .close:hover {
+  color: #06D85F;
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+/*    ==================================================================================================*/
+
+
+
+
+
+    .cancel-btn{
+background: lightcoral;
+color: white;
+padding: 11px 21px;
+width: 200px !important;
+border-radius: 20px;
+border: none;
+font-size: 1.5rem;
+height: 55px !important;
+display: grid;
+text-decoration: none;
+text-align: center;
+
+    }
+    .cancel-btn:hover{
+        color:white;
+
+    }
+    .delete-btn{
+        background: lightgreen;
+color: white;
+padding: 11px 21px;
+width: 200px;
+border-radius: 20px;
+border: none;
+font-size: 1.5rem;
+height: 56px;
+text-decoration: none;
+
+    }
+    a{
+        text-decoration: none;
+color: black;
+    }
+    .alert-delete{
+        display: flex;
+position: absolute;
+border: 1px solid lightcyan;
+border-radius: 20px;
+width: 700px;
+height: 400px;
+background: white;
+box-shadow: 3px 3px 5px lightgray;
+left: 28%;
+top: 26%;
+flex-direction: column;
+    }
+    .more-menu {
+        transition: all 0.5s ease 0s;
+        position: absolute;
+        inset: 0px auto auto 0px;
+        margin: 0px;
+        transform: translate(-168px, 52px);
+        width: 218px;
+        height: 150px;
+    }
+
+        .more-menu:before {
+            transform: translate(-168px, 12px);
+        }
+
+        .more-menu:after {
+            transform: translate(-168px, 52px);
+        }
+
+    .more-btn {
+        border-radius: 10px;
+        height: 50px;
+        width: 50px;
+    }
+
+    .li-more:hover {
+        background-color: lightcyan;
+        color: white;
+        cursor: pointer;
+        transition: .5s all;
+    }
+
+    img {
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        -ms-user-drag: none;
+        user-drag: none;
+        pointer-events: none;
+    }
+
+    .Time-bg {
+        background: #ECECEC;
+        padding: 20px;
+        border-radius: 18px;
+    }
+
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus,
+    button:focus {
+        outline: none;
+    }
+
+    input.middle:focus {
+        outline-width: 0;
+    }
+
+    *:focus {
+        outline: none;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+    }
+
+    .btn-outline-success:focus {
+        box-shadow: none;
+    }
+</style>
