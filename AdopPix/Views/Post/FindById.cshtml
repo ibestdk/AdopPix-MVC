@@ -3,17 +3,67 @@
 }
 
 <div>
-    <img src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@data.ImageName}")" style="width:100px; height: 100px;" id="blah" />
-    <p>@data.PostId</p>
-    <p>@data.Title</p>
-    <p>@data.UserName</p>
-    <p>@data.Description</p>
-
+    <div class="container-xl">
+        <div class="row mt-4">
+            <div class="text-center col">
+                <img src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@data.ImageName}")" class="img-fluid rounded image" id="blah" />
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                @* For View Like Comment *@
+                @if (@data.UserName == User.Identity.Name){
+                    <a href="/post/remove/@data.PostId" >Delete</a>
+                    <a href="/post/edit/@data.PostId" >Edit</a>
+                }
+            </div>
+            <div class="col">
+                <div class="row">
+                    <p>@data.UserName</p>
+                </div>
+                <div class="row">
+                    <p>@data.Title</p>
+                </div>
+                <div class="row">
+                    <p>@data.Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-@if (@data.UserName == User.Identity.Name){
-    <a href="/post/remove/@data.PostId" >Delete</a>
-    <a href="/post/edit/@data.PostId" >Edit</a>
+@*<div class="d-grid gap-2 d-md-block">
+  <button class="btn btn-primary fa fa-heart click" type="button" onclick="BTNPress()"></button>
+</div> *@
+
+
+
+
+<style>
+
+    .image {
+        border-style:solid;
+        max-height:600px;    
+    }
+
+
+    .click {
+        color:blue;
+        background-color:white;
+        border-color:blue;
+    }
+
+</style>
+@*
+<script>
+function BTNPress(status){
+    if (status == 0){
+        document.getElementById("click").style.color = "blue";
+        status = 1;
+    }
+    else(status == 1){
+        document.getElementById("click").style.color = "red";
+        status = 0;
+    }
 }
-
-
+</script> *@

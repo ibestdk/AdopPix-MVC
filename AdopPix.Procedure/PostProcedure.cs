@@ -250,5 +250,30 @@ namespace AdopPix.Procedure
                 }
             }
         }
+
+        public async Task LikeAsync(PostLike postId)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_Like";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = postId.PostId;
+                    command.Parameters.Add("@UserId", MySqlDbType.VarChar).Value = postId.UserId;
+                    command.Parameters.Add("@Created", MySqlDbType.DateTime).Value = postId.Created;
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                    await connection.CloseAsync();
+                }
+            }
+        }
+
+        public async Task UnLikeAsync(PostLike postId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

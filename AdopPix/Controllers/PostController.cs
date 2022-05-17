@@ -198,5 +198,20 @@ namespace AdopPix.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Like(PostLike postlike)
+        {
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var posts = await postProcedure.FindByPostId(postlike.PostId);
+
+            PostLike postLikeDetail = new PostLike
+            {
+                PostId = posts.PostId,
+                UserId = user.Id,
+                Created = DateTime.Now
+            };
+            await postProcedure.LikeAsync(postLikeDetail);
+            return Redirect($"/Post/{postlike.PostId}");
+        }
+
     }
 }
