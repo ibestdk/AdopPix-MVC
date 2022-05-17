@@ -2,6 +2,7 @@
 using AdopPix.Models.ViewModels;
 using AdopPix.Procedure.IProcedure;
 using AdopPix.Services.IServices;
+using AdopPix.Services.ModelService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,6 +17,8 @@ namespace AdopPix.Controllers
         private readonly IAuctionProcedure auctionProcedure;
         private readonly UserManager<User> userManager;
         private readonly IImageService imageService;
+        private readonly IAuctionBidProcedure auctionBidProcedure;
+        private readonly IAuctionHubService auctionHubService;
         private readonly IUserProfileProcedure userProfileProcedure;
         private string GenerateAuctionId()
         {
@@ -24,14 +27,21 @@ namespace AdopPix.Controllers
             string[] hhmmss = dateTime[1].Split(':');
             return $"auction-{string.Join("", ddmmyyyy)}{string.Join("", hhmmss)}";
         }
-        public AuctionController(INavbarService navbarService, IUserProfileProcedure userProfileProcedure, UserManager<User> userManager, IAuctionProcedure auctionProcedure, IImageService imageService)
+        public AuctionController(INavbarService navbarService, 
+                                 IUserProfileProcedure userProfileProcedure, 
+                                 UserManager<User> userManager, 
+                                 IAuctionProcedure auctionProcedure, 
+                                 IImageService imageService,
+                                 IAuctionBidProcedure auctionBidProcedure,
+                                 IAuctionHubService auctionHubService)
         {
             this.navbarService = navbarService;
             this.userManager = userManager;
             this.userProfileProcedure = userProfileProcedure;
             this.auctionProcedure = auctionProcedure;
             this.imageService = imageService;
-
+            this.auctionBidProcedure = auctionBidProcedure;
+            this.auctionHubService = auctionHubService;
         }
         //-----------------------------------------------------------------------------------------------------------
         public async Task<IActionResult> Index()
@@ -123,6 +133,20 @@ namespace AdopPix.Controllers
             var userProfiles = await userProfileProcedure.FindByIdAsync(auctionpost.UserId);
             var users = await userManager.FindByIdAsync(auctionpost.UserId);
             var user = users.UserName;
+
+            var bidData = await auctionBidProcedure.FindMaxAmountByAuctionId(aucId);
+
+            string maxBidUsername = string.Empty;
+            decimal lastPrice = 0;
+
+            if (bidData != null)
+            {
+                var maxBidUser = await userManager.FindByIdAsync(bidData.UserId);
+                maxBidUsername = maxBidUser.UserName;
+                lastPrice = bidData.Amount;
+            }
+            
+            
             AuctionViewModel auction = new AuctionViewModel
             {
                 AvaterName = userProfiles.AvatarName,
@@ -132,14 +156,23 @@ namespace AdopPix.Controllers
                 Title = auctionpost.Title,
                 HourId = auctionpost.HourId,
                 OpeningPrice = auctionpost.OpeningPrice,
+                Price = lastPrice,
                 HotClose = auctionpost.HotClose,
                 Description = auctionpost.Description,
                 Created = auctionpost.Created,
-                ImageId = auctionimage.ImageId
+                ImageId = auctionimage.ImageId,
+                LastBid = maxBidUsername,
             };
 
+            if(auctionpost.StopTime != null)
+            {
+                auction.StopTime = (DateTime)auctionpost.StopTime;
+            }
 
-
+            if(TempData["ErrorBid"] != null)
+            {
+                ViewBag.ErrorBid = TempData["ErrorBid"];
+            }
 
             return View(auction);
         }
@@ -224,6 +257,79 @@ namespace AdopPix.Controllers
             return Redirect("/Auction");
         }
 
+        [HttpPost("Auction/Bid/{auctionId}")]
+        public async Task<IActionResult> BidByAuctionId(string auctionId, int amount)
+        {
+            var auction = await auctionProcedure.FindByIdAsync(auctionId);
+            if (auction == null) return NotFound();
 
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            if (user == null) return NotFound();
+
+            var profile = await userProfileProcedure.FindByIdAsync(user.Id);
+            if (profile == null) return NotFound();
+
+            if(profile.Money < amount)
+            {
+                TempData["ErrorBid"] = "the money is not enough";
+                return Redirect($"/Auction/Post/{auctionId}");
+            }
+            DateTime createdAt = DateTime.Now;
+            if (auction.StartTime == null)
+            {
+                if (auction.OpeningPrice > amount)
+                {
+                    TempData["ErrorBid"] = "price too low.";
+                    return Redirect($"/Auction/Post/{auctionId}");
+                }
+
+                DateTime dateTime = DateTime.Now;
+                int hour = auction.HourId == 1 ? 24 : 48;
+
+                await auctionProcedure.InitialTime(auction.AuctionId, dateTime, dateTime.AddHours(hour));
+
+                AuctionBid auctionBid = new AuctionBid()
+                {
+                    UserId = user.Id,
+                    AuctionId = auctionId,
+                    Amount = amount,
+                    Created = createdAt,
+                };
+                await auctionBidProcedure.Create(auctionBid);
+            }
+            else
+            {
+                var bidData = await auctionBidProcedure.FindMaxAmountByAuctionId(auctionId);
+                if (bidData.Amount >= amount)
+                {
+                    TempData["ErrorBid"] = "price too low.";
+                    return Redirect($"/Auction/Post/{auctionId}");
+                }
+
+                AuctionBid auctionBid = new AuctionBid()
+                {
+                    UserId = user.Id,
+                    AuctionId = auctionId,
+                    Amount = amount,
+                    Created = createdAt,
+                };
+                await auctionBidProcedure.Create(auctionBid);
+            }
+
+            profile.Money -= amount;
+            await userProfileProcedure.UpdateAsync(profile);
+
+            UpdateClitentViewModel model = new UpdateClitentViewModel()
+            {
+                auctionId = auctionId,
+                UserName = user.UserName,
+                AvatarName = profile.AvatarName,
+                Amount = amount,
+                Created = createdAt
+            };
+            await auctionHubService.UpdateClientsAsync(model);
+
+            return Redirect($"/Auction/Post/{auctionId}");
+        }
     }
 }

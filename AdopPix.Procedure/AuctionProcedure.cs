@@ -114,6 +114,7 @@ namespace AdopPix.Procedure
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
+                        
                         auction = new Auction
                         {
                             AuctionId = reader["AuctionId"].ToString(),
@@ -123,9 +124,10 @@ namespace AdopPix.Procedure
                             Created = Convert.ToDateTime(reader["Created"].ToString()),
                             OpeningPrice = Convert.ToDecimal(reader["OpeningPrice"].ToString()),
                             HotClose = Convert.ToDecimal(reader["HotClose"].ToString()),
-                            Description = reader["Description"].ToString()
-
-                    };
+                            Description = reader["Description"].ToString(),
+                        };
+                        auction.StartTime = (await reader.IsDBNullAsync(reader.GetOrdinal("StartTime"))) ? null : Convert.ToDateTime(reader["StartTime"]);
+                        auction.StopTime = (await reader.IsDBNullAsync(reader.GetOrdinal("StopTime"))) ? null : Convert.ToDateTime(reader["StopTime"]);
                     }
                     await connection.CloseAsync();
                 }
@@ -321,6 +323,24 @@ namespace AdopPix.Procedure
             return userProfile;
         }
 
+        public async Task InitialTime(string auctionId, DateTime startTime, DateTime stopTime)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Auctions_InitialTime";
+                    command.CommandType = CommandType.StoredProcedure;
 
+                    command.Parameters.Add("@AuctionId", MySqlDbType.VarChar).Value = auctionId;
+                    command.Parameters.Add("@StartTime", MySqlDbType.DateTime).Value = startTime;
+                    command.Parameters.Add("@StopTime", MySqlDbType.DateTime).Value = stopTime;
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                    await connection.CloseAsync();
+                }
+            }
+        }
     }
 }

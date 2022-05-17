@@ -8,9 +8,6 @@
     <div class="">
         @if (@Model.UserName == User.Identity.Name)
         {
-
-
-
             <div style="display: flex;flex-direction: row;">
                 <div style="margin-left: 100%;margin-bottom: 50px;">
 
@@ -83,27 +80,27 @@
             <div style="display: flex;flex-direction: column; margin-left: 30px; ">
                 <div style="display: flex;">
                     @*ส่วนของเวลา*@
-                    <h1 class="Time-bg">24</h1>
+                    <h1 class="Time-bg" id="hh"></h1>
                     <div style="padding-top: 16px;margin: 0 10px;">
                         <h1>:</h1>
                     </div>
-                    <h1 class="Time-bg">00</h1>
+                    <h1 class="Time-bg" id="mm"></h1>
                     <div style="padding-top: 16px;margin: 0 10px;">
                         <h1>:</h1>
                     </div>
-                    <h1 class="Time-bg">00</h1>
+                    <h1 class="Time-bg" id="ss"></h1>
                 </div>
                 <div>
                     <div>
                         <div style="text-align: right;font-family: 'Roboto';font-style: normal;font-weight: 900;font-size: 48px;line-height: 56px;color: #A0D1BA;">
 
-                            @if (@Model.OpeningPrice == @Model.OpeningPrice)
+                            @if (Model.OpeningPrice >= Model.Price)
                             {
-                                <p style="font-size: 33px;">การประมูลยังไม่เริ่ม</p>
+                                <p style="font-size: 33px;" id="bidAmount">การประมูลยังไม่เริ่ม</p>
                             }
-                            @if (@Model.OpeningPrice != @Model.OpeningPrice)
+                            else
                             {
-                                @Model.OpeningPrice
+                                <p style="font-size: 33px;" id="bidAmount">@Model.Price</p>
                             }
 
                         </div>
@@ -112,19 +109,28 @@
                             <div style="font-weight: 900;font-size: 18px;line-height: 21px;color: #8D8D8D;">
                                 By
                             </div>
-                            <div style="margin-left:15px; font-weight: 900;font-size: 18px;line-height: 21px;color: #000000;">
-                                ยังไม่มีคนเริ่มประมูล   @*คนประมูล*@
-                            </div>
+                            @if(string.IsNullOrEmpty(Model.LastBid))
+                            {
+                                <div id="lastBid" style="margin-left:15px; font-weight: 900;font-size: 18px;line-height: 21px;color: #000000;">
+                                    ยังไม่มีคนเริ่มประมูล   @*คนประมูล*@
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="lastBid" style="margin-left:15px; font-weight: 900;font-size: 18px;line-height: 21px;color: #000000;">
+                                    @Model.LastBid
+                                </div>
+                            }
+
 
                         </div>
                     </div>
                 </div>
-                <form>
+                <form action="/Auction/Bid/@Model.AuctionId" method="post">
                     <div class="form-group" style="display: flex;flex-direction: row;">
                         <div style="display: flex;flex-direction: row;background: #E3E3E3;border-radius: 50px;">
                             <div>
-                                <input asp-for="OpeningPrice" type="number" class="form-control" style="background: none;border: none;text-align: right;" />
-                                <span asp-validation-for="OpeningPrice" class="text-danger"></span>
+                                <input type="number" name="amount" class="form-control" style="background: none;border: none;text-align: right;" />
                             </div>
                             <div>
                                 <input type="submit" value="Bids" class="btn btn-outline-success float-right" style="border: none;border-radius: 50px;background: #4F9FDA;width: 82px;color: white;font-weight: 800;" />
@@ -133,14 +139,16 @@
 
                         </div>
                     </div>
+                    @if(ViewBag.ErrorBid != null)
+                    {
+                        <span class="text-danger">@ViewBag.ErrorBid</span>
+                    }
                 </form>
             </div>
         </div>
         <div>
             <div>
                 <div style="font-weight: 600;font-size: 2rem;margin-left: 30px;">
-
-
                     @Model.Title
                 </div>
             </div>
@@ -183,14 +191,63 @@
         e.stopPropagation();
       })
     })
-
 </script>
 
+@if(Model.StopTime == Convert.ToDateTime(null))
+{
+    <script>
+        document.getElementById('hh').innerHTML = '00';
+        document.getElementById('mm').innerHTML = '00';
+        document.getElementById('ss').innerHTML = '00';
+    </script>
+}
+else
+{
+    <script>
+
+    // Set the date we're counting down to
+  var countDownDate = new Date(`@Model.StopTime.ToString()`).getTime();
+
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('hh').innerHTML = hours;
+    document.getElementById('mm').innerHTML = minutes;
+    document.getElementById('ss').innerHTML = seconds;
+
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+</script>
+}
+
+<script>
+    let auctionHub = new signalR.HubConnectionBuilder().withUrl("/hubs/auction").build();
+
+    auctionHub.on("@Model.AuctionId", (response) => {
+        document.getElementById("bidAmount").innerHTML = response.amount;
+        document.getElementById("lastBid").innerHTML = response.username;
+    });
+
+    function onConnected() {
+        console.log("Connected.");
+    }
+    function onFailed(err) {
+        console.log("Failed.");
+    }
+    auctionHub.start().then(onConnected, onFailed);
+</script>
+    
 <style>
 /*    ==================================================================================================*/
-
-
-
 
 .box {
   width: 40%;

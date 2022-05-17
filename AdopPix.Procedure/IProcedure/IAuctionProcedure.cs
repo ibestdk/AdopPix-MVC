@@ -1,5 +1,6 @@
 ﻿using AdopPix.Models;
 using AdopPix.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,6 +25,6 @@ namespace AdopPix.Procedure.IProcedure
         Task UpdateAuctionAsync(Auction entity);
         //Task UpdateImageAsync(AuctionImage imageId);
 
-
+        Task InitialTime(string auctionId, DateTime startTime, DateTime stopTime);
     }
 }

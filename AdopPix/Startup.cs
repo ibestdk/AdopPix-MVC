@@ -73,6 +73,7 @@ namespace AdopPix
             services.AddScoped<INotificationProcedure, NotificationProcedure>();
             services.AddScoped<IAuctionProcedure, AuctionProcedure>();
             services.AddScoped<IPostProcedure, PostProcedure>();
+            services.AddScoped<IAuctionBidProcedure, AuctionBidProcedure>();
 
             //Register services
             services.AddScoped<IImageService, ImageService>();
@@ -80,6 +81,7 @@ namespace AdopPix
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<INavbarService, NavbarService>();
+            services.AddScoped<IAuctionHubService, AuctionHubService>();
 
             services.AddSignalR();
 
@@ -115,6 +117,7 @@ namespace AdopPix
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<NotificationHub>("/hubs/notification");
+                endpoints.MapHub<AuctionHub>("/hubs/auction");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
