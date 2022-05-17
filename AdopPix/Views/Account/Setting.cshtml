@@ -3,15 +3,15 @@
 <div class="d-flex justify-content-center mt-3">
     <div class="row">
 
-        <div class="row w-100 h-25" style="overflow: hidden; height: 800px; width: 1280px;">
+        <div class="row w-100 h-25" style="overflow: hidden; height: 394px; width: 1280px;">
             @if (@Model.CoverName != "")
         {
             @*<h3>Cover Example</h3>*@
-            <img class="" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@Model.CoverName}")" style="height: 800px;width: 1280px;" />
+            <img class="" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@Model.CoverName}")" style="height: 394px;width: 1280px; object-fit: cover;" />
         }
         @if (@Model.CoverName == "")
         {
-            <img class="" src="@Url.Content($"https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/cover-default.jpg")" style="height: 800px;width: 1280px;" />
+            <img class="" src="@Url.Content($"https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/cover-default.jpg")" style="height: 394px;width: 1280px; object-fit: cover;" />
         }
        
         </div>
@@ -21,7 +21,7 @@
                 <div class="d-flex justify-content-center">
                     @if (@Model.AvaterName != "")
                     {
-                            <img src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@Model.AvaterName}")" style="border-radius: 50%; width: 200px; height: 200px; object-fit: cover; border:7px solid #EDEDED;position:absolute; top: 24%;background: white;" id="blah" />
+                            <img src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@Model.AvaterName}")" style="border-radius: 50%; width: 200px; height: 200px; object-fit: cover; border:7px solid #EDEDED; top: 24%;background: white; margin-top: -153px;" id="blah" />
                     }
                 </div>
             </div>
@@ -114,7 +114,7 @@
                                     </div>
                             }
                         </div>
-                        <button onclick="AddSocialFormToggle(event)" class="btn btn-link">Add Social media</button>
+                        <button onclick="AddSocialFormToggle(event)" class="btn btn-addsocial btn-link">Add Social media</button>
                         <div id="AddSocial" style="display: @(ViewBag.AddSocialError == null ? "none" : "block");">
                             <form asp-controller="Account" asp-action="AddSocial" method="post">
                                 <div class="mb-3">
@@ -161,6 +161,14 @@
 
 
 <style>
+        .btn-addsocial{
+        font-size: 1.2rem;
+font-weight: bolder;
+text-decoration: none;
+color: #4F9FDA;
+border: 2px solid #4F9FDA;
+border-radius: 8px;
+    }
     .profile-setting {
         border-top: 5px solid #4F9FDA;
         color: #4F9FDA;

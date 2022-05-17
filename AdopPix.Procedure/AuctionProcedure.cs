@@ -295,6 +295,69 @@ namespace AdopPix.Procedure
             return auctionImages;
         }
 
+        public async Task<List<UserProfile>> GetAllUserImageDetailAsync()
+        {
+            List<UserProfile> auctionUserImages = new List<UserProfile>();
+            UserProfile auctionUserimage = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Auction_GetAllUserImageDetails";
+                    command.CommandType = CommandType.StoredProcedure;
+
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        auctionUserimage = new UserProfile
+                        {
+                            AvatarName = reader["AvatarName"].ToString(),
+                            UserId = reader["UserId"].ToString(),
+                        };
+                        auctionUserImages.Add(auctionUserimage);
+                        auctionUserimage = null;
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+            return auctionUserImages;
+        }
+        public async Task<List<User>> GetAllUserDetailAsync()
+        {
+            List<User> auctionImages = new List<User>();
+            User auctionimage = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Auction_GetAllUserDetails";
+                    command.CommandType = CommandType.StoredProcedure;
+
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        auctionimage = new User
+                        {
+                            UserName = reader["UserName"].ToString(),
+                            Id = reader["Id"].ToString(),
+                        };
+                        auctionImages.Add(auctionimage);
+                        auctionimage = null;
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+            return auctionImages;
+        }
+
+
+
         public async Task<AuctionViewModel> FindByUserIdAsync(string userId)
         {
             AuctionViewModel userProfile = null;

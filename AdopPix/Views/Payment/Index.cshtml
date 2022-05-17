@@ -3,8 +3,8 @@
 <div class="text-center ">
     <h1 class="topup-text">Top up</h1>
     <div style="display: inline-flex;">
-        <h2 style="color: #949494;">Current money :&nbsp; </h2>
-        <h2 style="color: #5BA8DE; font-weight: 800; ">@Model.CurrentMoney</h2> 
+        <h4 style="color: #949494;">Current money :&nbsp; </h4>
+        <h4 style="color: #5BA8DE; font-weight: 800; ">@Model.CurrentMoney</h4> 
     </div>
     
 </div>
@@ -16,13 +16,13 @@
     <input type="hidden" name="omiseToken">
     <input type="hidden" name="omiseSource">
     <div class="d-flex justify-content-center mt-5">
-        <div class="w-50">
+        <div class="" style="width: 70%">
             <label>The amount you want to top up</label>
             <input type="number" name="money" id="money" asp-for="Money" class="form-control mt-2 input-rework" />
             <span asp-validation-for="Money"></span>
         </div>
     </div>
-    <div class="d-flex justify-content-center mt-5">
+    <div class="d-flex justify-content-center mt-2">
         <div class="w-50">
             <h4 class="payment-medthod-text">Payment method</h4>
             <hr />
@@ -78,17 +78,17 @@ footer{
 }
 
 .box-controller{
-    height: 50vh;
+    height: 44vh;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
-    width: 25vw;
+    width: 18vw;
 margin: 0 auto;
 margin-top: 19%;
 }
 .topup-text{
     padding-top: 30px; 
     font-weight: 900;
-font-size: 50px;
+font-size: 2.3rem;
 background: linear-gradient(90deg, #96C3E0 0%, #52A2DB 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
@@ -137,6 +137,15 @@ input[type=number] {
 border-bottom: none !important;
 color:white;
 }
-
+.menu-list{
+    color:white;
+}
+.post-btn{
+ color:white;
+ border: 2px solid white;
+}
+i{
+     color:white !important;
+}
 
 </style>

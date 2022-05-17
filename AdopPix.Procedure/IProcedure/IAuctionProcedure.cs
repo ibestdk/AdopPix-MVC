@@ -13,8 +13,11 @@ namespace AdopPix.Procedure.IProcedure
 
         Task<List<Auction>> GetAllAsync();
         Task<List<AuctionImage>> GetAllImageAsync();
+        Task<List<User>> GetAllUserDetailAsync();
+        Task<List<UserProfile>> GetAllUserImageDetailAsync();
         Task <AuctionViewModel> FindByUserIdAsync(string userId);
         Task <AuctionImage> FindImageByIdAsync(string auctionId);
+
         Task FindAll(Auction auction);
 
         Task DeleteAuctionAsync(Auction auction);
