@@ -305,6 +305,22 @@ namespace AdopPix.Controllers
                     TempData["ErrorBid"] = "price too low.";
                     return Redirect($"/Auction/Post/{auctionId}");
                 }
+                else
+                {
+                    WinningBidder bidder = new WinningBidder()
+                    {
+                        UserId = user.Id,
+                        AuctionId = auctionId,
+                        amount = amount,
+                        Created = DateTime.Now,
+                    };
+
+                    var userWinning = await userProfileProcedure.FindByIdAsync(auction.UserId);
+                    userWinning.Money += amount;
+                    await userProfileProcedure.UpdateAsync(userWinning);
+
+                    await auctionProcedure.WinningBidderCreate(bidder);
+                }
 
                 AuctionBid auctionBid = new AuctionBid()
                 {

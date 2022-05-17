@@ -26,5 +26,6 @@ namespace AdopPix.Procedure.IProcedure
         //Task UpdateImageAsync(AuctionImage imageId);
 
         Task InitialTime(string auctionId, DateTime startTime, DateTime stopTime);
+        Task WinningBidderCreate(WinningBidder entity);
     }
 }

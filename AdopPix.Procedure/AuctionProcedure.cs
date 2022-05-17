@@ -342,5 +342,26 @@ namespace AdopPix.Procedure
                 }
             }
         }
+
+        public async Task WinningBidderCreate(WinningBidder entity)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Auctions_InitialTime";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@UserId", MySqlDbType.VarChar).Value = entity.UserId;
+                    command.Parameters.Add("@AuctionId", MySqlDbType.VarChar).Value = entity.AuctionId;
+                    command.Parameters.Add("@Amount", MySqlDbType.Decimal).Value = entity.amount;
+                    command.Parameters.Add("@Created", MySqlDbType.DateTime).Value = entity.Created;
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                    await connection.CloseAsync();
+                }
+            }
+        }
     }
 }
