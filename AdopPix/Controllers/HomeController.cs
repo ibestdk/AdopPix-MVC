@@ -21,20 +21,40 @@ namespace AdopPix.Controllers
         private readonly INotificationService notificationService;
         private readonly UserManager<User> userManager;
         private readonly INavbarService navbarService;
+        private readonly IAuctionProcedure auctionProcedure;
 
         public HomeController(INotificationService notificationService,
                               UserManager<User> userManager,
+                              IAuctionProcedure auctionProcedure,
                               INavbarService navbarService)
         {
             this.notificationService = notificationService;
             this.userManager = userManager;
+            this.auctionProcedure = auctionProcedure;
             this.navbarService = navbarService;
         }
 
         public async Task<IActionResult> Index()
         {
             ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
-            return View();
+
+
+
+            var allAuctions = await auctionProcedure.GetAllAsync();
+            var allAuctionImages = await auctionProcedure.GetAllImageAsync();
+            var allAuctionUsers = await auctionProcedure.GetAllUserDetailAsync();
+            var allAuctionImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
+
+            ViewData["imageAuctions"] = allAuctionImages;
+            ViewData["userAuctions"] = allAuctionUsers;
+            ViewData["userimageAuctions"] = allAuctionImagesUser;
+
+
+            return View(allAuctions);
+
+
+
+
         }
         [HttpPost]
         public async Task<IActionResult> Index(string UserId, string Description, string RedirectToUrl)
@@ -44,6 +64,31 @@ namespace AdopPix.Controllers
             await notificationService.NotificationByUserIdAsync(user.Id, UserId, Description, RedirectToUrl);
             return View();
         }
+
+
+        [Route("Post")]
+        public async Task<IActionResult> Post()
+        {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
+            return View();
+        }        
+
+
+
+        [Route("TestNoti")]
+        public async Task<IActionResult> TestSenderNoti()
+        {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
+            return View();
+        }
+        public async Task<IActionResult> TestSenderNoti(string UserId, string Description, string RedirectToUrl)
+        {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            await notificationService.NotificationByUserIdAsync(user.Id, UserId, Description, RedirectToUrl);
+            return View();
+        }
+
 
         public async Task<IActionResult> Privacy()
         {

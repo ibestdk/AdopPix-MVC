@@ -1,9 +1,88 @@
 ﻿@model List<PostViewModel>
+
+    <div class="grid-container">
 @foreach (var item in Model){
-    <a href="/post/@item.PostId">
-        <div>
-        <img src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@item.ImageName}")" style="width:100px; height: 100px;" id="blah" />
-        <h3>@item.Title</h3>
-    </div>
-    </a>
+    @foreach (var std2 in ViewData["userAuctions"] as IList<User>)
+    {
+        
+    
+            @if (std2.Id == item.UserId)
+            {
+                @foreach (var std3 in ViewData["userimageAuctions"] as IList<UserProfile>)
+                {
+
+
+
+
+                    @if (std3.UserId == item.UserId)
+                    {
+
+
+                        <a href="/post/@item.PostId">
+                            <div style="border-radius: 20px;width: 100%;height: 100%; margin:10px">
+                                <div>
+                                    <p style="text-align: center;margin: 0;">
+
+                                        <img src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@item.ImageName}")" style="box-shadow: 1px 1px 5px lightgray; object-fit: cover; border-radius: 25px;width: 184px;height: 184px;; object-fit: cover;;" id="blah" />
+                                    </p>
+
+                                    <p class="text" style="padding-left: 20px;text-align: left;font-weight: bolder;font-size: 1rem;">
+                                        @item.Title
+                                    </p>
+                                </div>
+                                <div style=" display: flex; flex-direction: row; padding: 0 20px;margin-top: -12px;font-size: 1rem;font-weight: bold;">
+                                    <div>
+                                        <p>
+                                            <img draggable="false" oncontextmenu="return false;" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@std3.AvatarName}")" style="border-radius: 50%; width: 24px; height: 24px; object-fit: cover; border:1px solid #EDEDED;top: 24%;background: white;" id="blah" />
+                                        </p>
+
+                                    </div>
+                                    <div>
+                                        <p>
+                                            @std2.UserName
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    }
+
+                }
+            }
 }
+}
+
+</div>
+
+
+<style>
+    a{
+        text-decoration:none;
+        color:black;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto;
+        gap: 10px;
+        /*background-color: #2196F3; */
+        padding: 10px;
+    }   
+            .grid-container > div {
+            /* background-color: rgba(255, 255, 255, 0.8); */
+            text-align: center;
+            padding: 20px 0;
+            font-size: 30px;
+        }
+
+        
+    .text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-height: 40px; /* fallback */
+        max-height: 32px; /* fallback */
+        -webkit-line-clamp: 1; /* number of lines to show */
+        -webkit-box-orient: vertical;
+        padding: 0 20px;
+    }
+</style>

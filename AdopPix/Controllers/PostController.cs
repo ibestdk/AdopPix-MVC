@@ -20,16 +20,19 @@ namespace AdopPix.Controllers
         private readonly IPostProcedure postProcedure;
         private readonly UserManager<User> userManager;
         private readonly IImageService imageService;
+        private readonly IAuctionProcedure auctionProcedure;
 
         public PostController(IPostProcedure post,
                               INavbarService navbarService,
                               UserManager<User> userManager,
-                              IImageService imageService)
+                              IImageService imageService,
+                              IAuctionProcedure auctionProcedure)
         {
             this.postProcedure = post;
             this.navbarService = navbarService;
             this.userManager = userManager;
             this.imageService = imageService;
+            this.auctionProcedure = auctionProcedure;
         }
 
         [HttpGet("Post/Create")]
@@ -73,28 +76,35 @@ namespace AdopPix.Controllers
             await postProcedure.CreateImageAsync(postImageDetail);
             ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
 
-            return Redirect("/");
+            return Redirect("/illustration");
         }
 
-        [HttpGet]
+        [HttpGet("illustration")]
+
         public async Task<IActionResult> Index()
         {
             ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
 
             List<PostViewModel> postViewModels = new List<PostViewModel>();
             var posts = await postProcedure.FindAllAsync();
+            var allUsers = await auctionProcedure.GetAllUserDetailAsync();
+            var allImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
 
             foreach (var item in posts)
             {
+
                 var image = await postProcedure.FindImageByPostIdAsync(item.PostId);
                 PostViewModel postViewModel = new PostViewModel
                 {
                     Title = item.Title,
                     ImageName = image.ImageId,
-                    PostId = item.PostId
+                    PostId = item.PostId,
+                    UserId = item.UserId
                 };
                 postViewModels.Add(postViewModel);
             }
+            ViewData["userAuctions"] = allUsers;
+            ViewData["userimageAuctions"] = allImagesUser;
 
             return View(postViewModels);
         }

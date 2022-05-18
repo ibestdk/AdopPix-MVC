@@ -5,17 +5,13 @@
 }
 
 <div class="d-flex justify-content-center align-items-center bg-login" style="height: 80vh; margin-top: 5%;">
-    <form method="post" class="w-50 controller-form">
+    <form method="post" class="controller-form" style="width: 378px;height: 631px;">
         <div>
-            <h2 style="font-weight: 900;
-font-size: 58px;
-line-height: 70px;
-text-align: center;
-color: #4F9FDA;">
+            <h2 style="font-weight: 900;font-size: 2.5rem;line-height: 70px;text-align: center;color: #4F9FDA;  margin: 0;}">
                 AdopPix
             </h2>
             <p style="font-weight: 700;
-font-size: 14px;
+font-size: 0.8rem;
 line-height: 18px;
 text-align: center;
 color: #ADADAD;">
@@ -35,11 +31,12 @@ color: #ADADAD;">
             <input type="password" class="form-control input-rework" asp-for="loginViewModel.Password" />
             <span asp-validation-for="loginViewModel.Password" class="text-danger"></span>
         </div>
+        <a asp-page="/auth/forgetpassword" class="w-100 mb-2">Forget password ?</a>
         <div class="d-grid gap-2">
             <input type="submit" value="Login" class="login w-100 mb-2" />
             <a asp-page="/auth/register" class="register w-100 mb-2">Create an account</a>
 
-            <a asp-page="/auth/forgetpassword" class="btn btn-outline-danger w-100 mb-2">Forget password ?</a>
+            
         </div>
         <hr />
         <p style="font-size: 0.9rem; text-align: center">this site is protected by reCAPCHA Enterprise and the Google
@@ -54,6 +51,17 @@ color: #ADADAD;">
 
 
 <style>
+
+        a{
+        text-decoration:none;
+        color: #4A4A4A;
+        font-weight:bold;
+        transition: .3s all;
+    }
+    a:hover{
+        color: lightgray;
+        transition: .5s all;
+    }
 
 body{
        background:url('https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/bg-login.jpg') no-repeat !important;  
@@ -70,34 +78,41 @@ border-radius: 10px;
     border-radius: 50px;
 border: none;
 background: #EEEEEE;
-padding: 10px 10px;
-    font-size: 20px;
+padding: 4px 28px;
+font-size: 20px;
 }
    .login {
         background-color: #4F9FDA;
-        color: white;
-        border-radius: 41px;
-        padding: 15px;
-        text-decoration: none;
-        margin-bottom: 30px;
-        margin-top: 40px;
-        font-weight: 700;
-        font-size: 26px;
-        line-height: 30px;
-        border: none;
+color: white;
+border-radius: 41px;
+padding: 6px;
+text-decoration: none;
+margin-bottom: 30px;
+margin-top: 15px;
+font-weight: 700;
+font-size: 1rem;
+line-height: 30px;
+border: none;
     }
 
     .register {
         background-color: white;
         color: #5F5F5F;
         border-radius: 41px;
-        padding: 15px;
+        padding: 6px;
         text-decoration: none;
         box-shadow: 1px 1px 1px rgb(197, 197, 197);
         font-weight: 700;
-        font-size: 26px;
+        font-size: 1rem;
         line-height: 30px;
         display: grid;
-text-align: center;
+        text-align: center;
     }
+    .register:hover {
+
+        color: lightgray;
+        transition: .5s all;
+
+    }
+
 </style>
