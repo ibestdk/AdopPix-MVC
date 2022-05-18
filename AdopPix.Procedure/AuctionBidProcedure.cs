@@ -71,5 +71,36 @@ namespace AdopPix.Procedure
             }
             return auctionBid;
         }
+
+        public async Task<List<AuctionBid>> FindUserLoseAuction(string auctionId)
+        {
+            List<AuctionBid> auctionBids = new List<AuctionBid>();
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "AuctionBid_FindUserLoseAuction";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@AuctionId", MySqlDbType.VarChar).Value = auctionId;
+
+                    await connection.OpenAsync();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var auctionBid = new AuctionBid()
+                        {
+                            Amount = Convert.ToDecimal(reader["AmountSum"]),
+                            UserId = reader["UserId"].ToString()
+                        };
+                        auctionBids.Add(auctionBid);
+                    }
+
+                    await connection.CloseAsync();
+                }
+            }
+            return auctionBids;
+        }
     }
 }

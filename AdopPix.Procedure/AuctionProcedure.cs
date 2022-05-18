@@ -349,7 +349,7 @@ namespace AdopPix.Procedure
             {
                 using (MySqlCommand command = connection.CreateCommand())
                 {
-                    command.CommandText = "Auctions_InitialTime";
+                    command.CommandText = "WinningBidders_Create";
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.Add("@UserId", MySqlDbType.VarChar).Value = entity.UserId;
@@ -362,6 +362,39 @@ namespace AdopPix.Procedure
                     await connection.CloseAsync();
                 }
             }
+        }
+
+        public async Task<WinningBidder> WinningBidderFindByAuctionId(string auctionId)
+        {
+            WinningBidder winningBidder = null;
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "WinningBidders_FindByAuctionId";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@AuctionId", MySqlDbType.VarChar).Value = auctionId;
+
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        winningBidder = new WinningBidder()
+                        {
+                            UserId = reader["UserId"].ToString(),
+                            AuctionId = reader["AuctionId"].ToString(),
+                            amount = Convert.ToDecimal(reader["Amount"]),
+                            Created = Convert.ToDateTime(reader["Created"])
+                        };
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+
+            return winningBidder;
         }
     }
 }

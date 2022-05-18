@@ -19,6 +19,7 @@ namespace AdopPix.Controllers
         private readonly IImageService imageService;
         private readonly IAuctionBidProcedure auctionBidProcedure;
         private readonly IAuctionHubService auctionHubService;
+        private readonly INotificationService notificationService;
         private readonly IUserProfileProcedure userProfileProcedure;
         private string GenerateAuctionId()
         {
@@ -33,7 +34,8 @@ namespace AdopPix.Controllers
                                  IAuctionProcedure auctionProcedure, 
                                  IImageService imageService,
                                  IAuctionBidProcedure auctionBidProcedure,
-                                 IAuctionHubService auctionHubService)
+                                 IAuctionHubService auctionHubService,
+                                 INotificationService notificationService)
         {
             this.navbarService = navbarService;
             this.userManager = userManager;
@@ -42,6 +44,7 @@ namespace AdopPix.Controllers
             this.imageService = imageService;
             this.auctionBidProcedure = auctionBidProcedure;
             this.auctionHubService = auctionHubService;
+            this.notificationService = notificationService;
         }
         //-----------------------------------------------------------------------------------------------------------
         public async Task<IActionResult> Index()
@@ -164,6 +167,13 @@ namespace AdopPix.Controllers
                 LastBid = maxBidUsername,
             };
 
+            ViewBag.WinningBid = false;
+            var winningBid = await auctionProcedure.WinningBidderFindByAuctionId(auctionpost.AuctionId);
+            if (winningBid != null)
+            {
+                ViewBag.WinningBid = true;
+            }
+
             if(auctionpost.StopTime != null)
             {
                 auction.StopTime = (DateTime)auctionpost.StopTime;
@@ -269,6 +279,13 @@ namespace AdopPix.Controllers
             var profile = await userProfileProcedure.FindByIdAsync(user.Id);
             if (profile == null) return NotFound();
 
+            var winningBid = await auctionProcedure.WinningBidderFindByAuctionId(auction.AuctionId);
+            if (winningBid != null)
+            {
+                TempData["ErrorBid"] = "This auction has ended.";
+                return Redirect($"/Auction/Post/{auctionId}");
+            }
+
             if(profile.Money < amount)
             {
                 TempData["ErrorBid"] = "the money is not enough";
@@ -305,7 +322,8 @@ namespace AdopPix.Controllers
                     TempData["ErrorBid"] = "price too low.";
                     return Redirect($"/Auction/Post/{auctionId}");
                 }
-                else
+
+                if(amount >= auction.HotClose)
                 {
                     WinningBidder bidder = new WinningBidder()
                     {
@@ -320,6 +338,21 @@ namespace AdopPix.Controllers
                     await userProfileProcedure.UpdateAsync(userWinning);
 
                     await auctionProcedure.WinningBidderCreate(bidder);
+
+                    var loseAuctions = await auctionBidProcedure.FindUserLoseAuction(auction.AuctionId);
+                    if(loseAuctions != null)
+                    {
+                        foreach(var item in loseAuctions)
+                        {
+                            var loseUser = await userProfileProcedure.FindByIdAsync(item.UserId);
+                            loseUser.Money += item.Amount;
+                            await userProfileProcedure.UpdateAsync(loseUser);
+                            await notificationService.NotificationByUserIdAsync(auction.UserId, item.UserId, $"คุณเเพ้การประมูล", $"/Auction/Post/{auctionId}");
+                        }
+                    }
+                    var auctionimage = await auctionProcedure.FindImageByIdAsync(auction.AuctionId);
+                    await notificationService.NotificationByUserIdAsync(auction.UserId, user.Id, $"คุณชนะการประมูล", $"https://adoppix.s3.ap-southeast-1.amazonaws.com/{auctionimage.ImageId}");
+
                 }
 
                 AuctionBid auctionBid = new AuctionBid()

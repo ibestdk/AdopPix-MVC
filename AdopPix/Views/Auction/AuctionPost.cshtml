@@ -93,15 +93,22 @@
                 <div>
                     <div>
                         <div style="text-align: right;font-family: 'Roboto';font-style: normal;font-weight: 900;font-size: 48px;line-height: 56px;color: #A0D1BA;">
-
-                            @if (Model.OpeningPrice >= Model.Price)
+                            @if(ViewBag.WinningBid)
                             {
-                                <p style="font-size: 33px;" id="bidAmount">การประมูลยังไม่เริ่ม</p>
+                                <p style="font-size: 33px;">การประมูลจบลงแล้ว</p>
                             }
                             else
                             {
-                                <p style="font-size: 33px;" id="bidAmount">@Model.Price</p>
+                                @if (Model.OpeningPrice >= Model.Price)
+                                {
+                                    <p style="font-size: 33px;" id="bidAmount">การประมูลยังไม่เริ่ม</p>
+                                }
+                                else
+                                {
+                                    <p style="font-size: 33px;" id="bidAmount">@Model.Price</p>
+                                }
                             }
+                            
 
                         </div>
                         <hr style="margin-top: 0px;margin-bottom: 0px;" />
@@ -126,24 +133,27 @@
                         </div>
                     </div>
                 </div>
-                <form action="/Auction/Bid/@Model.AuctionId" method="post">
-                    <div class="form-group" style="display: flex;flex-direction: row;">
-                        <div style="display: flex;flex-direction: row;background: #E3E3E3;border-radius: 50px;">
-                            <div>
-                                <input type="number" name="amount" class="form-control" style="background: none;border: none;text-align: right;" />
-                            </div>
-                            <div>
-                                <input type="submit" value="Bids" class="btn btn-outline-success float-right" style="border: none;border-radius: 50px;background: #4F9FDA;width: 82px;color: white;font-weight: 800;" />
+                @if(!ViewBag.WinningBid)
+                {
+                    <form action="/Auction/Bid/@Model.AuctionId" method="post">
+                        <div class="form-group" style="display: flex;flex-direction: row;">
+                            <div style="display: flex;flex-direction: row;background: #E3E3E3;border-radius: 50px;">
+                                <div>
+                                    <input type="number" name="amount" class="form-control" style="background: none;border: none;text-align: right;" />
+                                </div>
+                                <div>
+                                    <input type="submit" value="Bids" class="btn btn-outline-success float-right" style="border: none;border-radius: 50px;background: #4F9FDA;width: 82px;color: white;font-weight: 800;" />
+                                </div>
 
                             </div>
-
                         </div>
-                    </div>
-                    @if(ViewBag.ErrorBid != null)
-                    {
-                        <span class="text-danger">@ViewBag.ErrorBid</span>
-                    }
-                </form>
+                        @if (ViewBag.ErrorBid != null)
+                        {
+                            <span class="text-danger">@ViewBag.ErrorBid</span>
+                        }
+                    </form>
+                }
+                
             </div>
         </div>
         <div>
@@ -193,7 +203,7 @@
     })
 </script>
 
-@if(Model.StopTime == Convert.ToDateTime(null))
+@if(Model.StopTime == Convert.ToDateTime(null) || ViewBag.WinningBid)
 {
     <script>
         document.getElementById('hh').innerHTML = '00';
