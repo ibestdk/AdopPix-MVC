@@ -357,6 +357,7 @@ namespace AdopPix.Controllers
                     }
                     var auctionimage = await auctionProcedure.FindImageByIdAsync(auction.AuctionId);
                     await notificationService.NotificationByUserIdAsync(auction.UserId, user.Id, $"คุณชนะการประมูล", $"https://adoppix.s3.ap-southeast-1.amazonaws.com/{auctionimage.ImageId}");
+                    await notificationService.NotificationByUserIdAsync(user.Id, auction.UserId, $"ปิดการประมูลของคุณที่ราคา {amount}", $"/Auction/Post/{auctionId}");
 
                 }
 
