@@ -23,6 +23,7 @@ namespace AdopPix.Models
         public decimal HotClose { get; set; }
         [Column(TypeName = "nvarchar(150)")]
         public string Description { get; set; }
+        public int Status { get; set; }
         public DateTime Created { get; set; }
 
         public User User { get; set; }
