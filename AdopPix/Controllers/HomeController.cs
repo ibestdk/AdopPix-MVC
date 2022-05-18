@@ -22,15 +22,18 @@ namespace AdopPix.Controllers
         private readonly UserManager<User> userManager;
         private readonly INavbarService navbarService;
         private readonly IAuctionProcedure auctionProcedure;
+        private readonly IPostProcedure postProcedure;
 
         public HomeController(INotificationService notificationService,
                               UserManager<User> userManager,
                               IAuctionProcedure auctionProcedure,
+                              IPostProcedure postProcedure,
                               INavbarService navbarService)
         {
             this.notificationService = notificationService;
             this.userManager = userManager;
             this.auctionProcedure = auctionProcedure;
+            this.postProcedure = postProcedure;
             this.navbarService = navbarService;
         }
 
@@ -39,7 +42,8 @@ namespace AdopPix.Controllers
             ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
 
 
-
+            var posts = await postProcedure.FindAllAsync();
+            var postimages = await postProcedure.GetAllImageAsync();
             var allAuctions = await auctionProcedure.GetAllAsync();
             var allAuctionImages = await auctionProcedure.GetAllImageAsync();
             var allAuctionUsers = await auctionProcedure.GetAllUserDetailAsync();
@@ -48,6 +52,8 @@ namespace AdopPix.Controllers
             ViewData["imageAuctions"] = allAuctionImages;
             ViewData["userAuctions"] = allAuctionUsers;
             ViewData["userimageAuctions"] = allAuctionImagesUser;
+            ViewData["allposts"] = posts;
+            ViewData["allimageposts"] = postimages;
 
 
             return View(allAuctions);

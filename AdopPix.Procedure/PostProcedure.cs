@@ -271,9 +271,44 @@ namespace AdopPix.Procedure
             }
         }
 
+        public async Task<List<PostImage>> GetAllImageAsync()
+        {
+            List<PostImage> posts = new List<PostImage>();
+            PostImage post = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_GetAllImage";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        post = new PostImage
+                        {
+                            ImageId = reader["ImageId"].ToString(),
+                            PostId = reader["PostId"].ToString(),
+
+                        };
+                        posts.Add(post);
+                        post = null;
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+            return posts;
+        }
+
+
         public async Task UnLikeAsync(PostLike postId)
         {
             throw new NotImplementedException();
         }
+
+
+
     }
 }

@@ -17,5 +17,6 @@ namespace AdopPix.Procedure.IProcedure
         Task UpdateImageAsync(PostImage imageId);
         Task LikeAsync(PostLike postId);
         Task UnLikeAsync(PostLike postId);
+        Task<List<PostImage>> GetAllImageAsync();
     }
 }
