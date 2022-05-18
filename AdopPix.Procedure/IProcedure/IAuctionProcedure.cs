@@ -31,5 +31,6 @@ namespace AdopPix.Procedure.IProcedure
         Task InitialTime(string auctionId, DateTime startTime, DateTime stopTime);
         Task WinningBidderCreate(WinningBidder entity);
         Task<WinningBidder> WinningBidderFindByAuctionId(string auctionId);
+        Task<List<WinningBidder>> GetAllAuctionEnd();
     }
 }

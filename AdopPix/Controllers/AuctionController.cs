@@ -53,6 +53,7 @@ namespace AdopPix.Controllers
 
 
             var allAuctions = await auctionProcedure.GetAllAsync();
+            var allAuctionEnds = await auctionProcedure.GetAllAuctionEnd();
             var allAuctionImages = await auctionProcedure.GetAllImageAsync();
             var allAuctionUsers = await auctionProcedure.GetAllUserDetailAsync();
             var allAuctionImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
@@ -60,6 +61,7 @@ namespace AdopPix.Controllers
             ViewData["imageAuctions"] = allAuctionImages;
             ViewData["userAuctions"] = allAuctionUsers;
             ViewData["userimageAuctions"] = allAuctionImagesUser;
+            ViewData["AuctionsEnds"] = allAuctionEnds;
 
 
             return View(allAuctions);

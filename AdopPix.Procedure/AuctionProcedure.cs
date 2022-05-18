@@ -258,6 +258,8 @@ namespace AdopPix.Procedure
                             Description = reader["Description"].ToString(),
 
                         };
+                        auction.StartTime = (await reader.IsDBNullAsync(reader.GetOrdinal("StartTime"))) ? null : Convert.ToDateTime(reader["StartTime"]);
+                        auction.StopTime = (await reader.IsDBNullAsync(reader.GetOrdinal("StopTime"))) ? null : Convert.ToDateTime(reader["StopTime"]);
                         auctions.Add(auction);
                         auction = null;
                     }
@@ -458,6 +460,39 @@ namespace AdopPix.Procedure
             }
 
             return winningBidder;
+        }
+
+        public async Task<List<WinningBidder>> GetAllAuctionEnd()
+        {
+            List<WinningBidder> auctionEnds = new List<WinningBidder>();
+            WinningBidder auctionEnd = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Auction_GetAllEnd";
+                    command.CommandType = CommandType.StoredProcedure;
+
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        auctionEnd = new WinningBidder
+                        {
+                            UserId = reader["UserId"].ToString(),
+                            AuctionId = reader["AuctionId"].ToString(),
+                            amount = Convert.ToDecimal(reader["Amount"]),
+                            Created = Convert.ToDateTime(reader["Created"])
+                        };
+                        auctionEnds.Add(auctionEnd);
+                        auctionEnd = null;
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+            return auctionEnds;
         }
     }
 }
