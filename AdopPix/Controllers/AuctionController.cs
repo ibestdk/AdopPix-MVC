@@ -296,6 +296,13 @@ namespace AdopPix.Controllers
                 TempData["ErrorBid"] = "the money is not enough";
                 return Redirect($"/Auction/Post/{auctionId}");
             }
+
+            if(auction.OpeningPrice > amount)
+            {
+                TempData["ErrorBid"] = $"The starting price is at {auction.OpeningPrice}";
+                return Redirect($"/Auction/Post/{auctionId}");
+            }
+
             DateTime createdAt = DateTime.Now;
             if (auction.StartTime == null)
             {
@@ -306,7 +313,7 @@ namespace AdopPix.Controllers
                 }
 
                 DateTime dateTime = DateTime.Now;
-                int hour = auction.HourId == 1 ? 24 : 48;
+                int hour = (auction.HourId == 1) ? 24 : 48;
 
                 await auctionProcedure.InitialTime(auction.AuctionId, dateTime, dateTime.AddHours(hour));
 
