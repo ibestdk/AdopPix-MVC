@@ -339,9 +339,10 @@ namespace AdopPix.Controllers
                     TempData["ErrorBid"] = "price too low.";
                     return Redirect($"/Auction/Post/{auctionId}");
                 }
-
-                if(amount >= auction.HotClose)
+                auction.Status = 1;
+                if (amount >= auction.HotClose)
                 {
+                    auction.Status = 2;
                     WinningBidder bidder = new WinningBidder()
                     {
                         UserId = user.Id,
@@ -367,7 +368,7 @@ namespace AdopPix.Controllers
                             await notificationService.NotificationByUserIdAsync(auction.UserId, item.UserId, $"คุณเเพ้การประมูล", $"/Auction/Post/{auctionId}");
                         }
                     }
-                    auction.Status = 2;
+                    
                     var auctionimage = await auctionProcedure.FindImageByIdAsync(auction.AuctionId);
                     await notificationService.NotificationByUserIdAsync(auction.UserId, user.Id, $"คุณชนะการประมูล", $"https://adoppix.s3.ap-southeast-1.amazonaws.com/{auctionimage.ImageId}");
                     await notificationService.NotificationByUserIdAsync(user.Id, auction.UserId, $"ปิดการประมูลของคุณที่ราคา {amount}", $"/Auction/Post/{auctionId}");
@@ -382,7 +383,6 @@ namespace AdopPix.Controllers
                     Created = createdAt,
                 };
                 await auctionBidProcedure.Create(auctionBid);
-                auction.Status = 1;
             }
 
             profile.Money -= amount;

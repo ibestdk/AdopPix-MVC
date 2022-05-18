@@ -125,6 +125,7 @@ namespace AdopPix.Procedure
                             OpeningPrice = Convert.ToDecimal(reader["OpeningPrice"].ToString()),
                             HotClose = Convert.ToDecimal(reader["HotClose"].ToString()),
                             Description = reader["Description"].ToString(),
+                            Status = Convert.ToInt32(reader["Status"]),
                         };
                         auction.StartTime = (await reader.IsDBNullAsync(reader.GetOrdinal("StartTime"))) ? null : Convert.ToDateTime(reader["StartTime"]);
                         auction.StopTime = (await reader.IsDBNullAsync(reader.GetOrdinal("StopTime"))) ? null : Convert.ToDateTime(reader["StopTime"]);
@@ -178,6 +179,7 @@ namespace AdopPix.Procedure
                     command.Parameters.Add("@AuctionId", MySqlDbType.VarChar).Value = entity.AuctionId;
                     command.Parameters.Add("@Title", MySqlDbType.VarChar).Value = entity.Title;
                     command.Parameters.Add("@Description", MySqlDbType.VarChar).Value = entity.Description;
+                    command.Parameters.Add("@StatusAuc", MySqlDbType.Int32).Value = entity.Status;
 
                     await connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
