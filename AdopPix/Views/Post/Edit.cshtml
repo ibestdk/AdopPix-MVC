@@ -1,17 +1,294 @@
 ﻿@model EditViewModel
 
-<div>
-    <img src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@Model.ImageName}")" style="width:100px; height: 100px;" id="blah" />
-    <form asp-action="Edit" method="post">
-        <input type="hidden" asp-for="@Model.PostId"/>
-        <div>
-            <label>title :</label>
-            <input type="text" asp-for="@Model.Title" />
-        </div>
-        <div>
-            <label>Description :</label>
-            <input type="text" asp-for="@Model.Description" />
-        </div>
-        <input type="submit" class="btn btn-primary" value="Edit"/>
-    </form>
+
+<div style="margin-bottom: 160px">
+    @foreach (var std2 in ViewData["userAuctions"] as IList<User>)
+    {
+        @if (std2.Id == Model.UserId)
+        {
+
+            @foreach (var std3 in ViewData["userimageAuctions"] as IList<UserProfile>)
+            {
+                @if (std3.UserId == Model.UserId)
+                {
+                    <div class="container-xl">
+                        <div class="row mt-4">
+                            <div class="text-center col">
+                                <img src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@Model.ImageName}")" class="img-fluid rounded image" id="blah" />
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                            </div>
+                            <div class="col" style="margin-left: 20%; margin-top:60px;">
+                                <div style=" display: flex; flex-direction: column; padding: 0 20px;margin-top: -12px;font-size: 1rem;font-weight: bold;">
+                                    <div style="display: flex;">
+                                        <p>
+                                            <img draggable="false" oncontextmenu="return false;" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@std3.AvatarName}")" style="border-radius: 50%; width: 40px; height: 40px; object-fit: cover; border:1px solid #EDEDED;top: 24%;background: white;" id="blah" />
+                                        </p>
+                                        <div style="margin-left: 10px;">
+                                            <p style="margin-top: 8px;margin-left: 5px;">
+                                                @std2.UserName
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <form asp-action="Edit" method="post">
+                                            <input type="hidden" asp-for="@Model.PostId" />
+                                                <label>title</label>
+                                            <div>
+                                                <input class="input-title" style="font-weight: bold; font-size:1.2rem; type="text" asp-for="@Model.Title" />
+                                            </div>
+                                                <label>Description </label>
+                                            <div>
+                                                 <textarea class="input-description" cols="20" id="Description" name="Description" rows="2">@Model.Description</textarea>
+                                            </div>
+                                            <div style="margin-left: 370px;margin-top: 40px;">
+
+                                                <input type="submit" class="btn save-btn" value="Edit" />
+                                            </div>
+                                        </form>
+
+                                        
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+        }
+    }
 </div>
+
+@*<div class="d-grid gap-2 d-md-block">
+    <button class="btn btn-primary fa fa-heart click" type="button" onclick="BTNPress()"></button>
+    </div> *@
+
+<script>
+
+</script>
+
+
+
+<style>
+
+        .save-btn {
+        float: right;
+        padding: 5px 20px;
+        font-size: 1.4rem;
+        background: lightgreen;
+        border: none;
+        box-shadow: 2px 2px 4px lightgray;
+        margin-right: 350px;
+        color: white;
+    }
+
+       .input-title {
+        border: none;
+        border-bottom-color: currentcolor;
+        border-bottom-style: none;
+        border-bottom-width: medium;
+        border-bottom: 6px solid lightblue;
+        margin-top: 20px;
+        background: lightcyan;
+        width: 65%;
+        border-radius: 10px;
+padding: 0px 20px;
+    }
+    .input-description{
+        border: none;
+background: lightcyan;
+padding: 5px 20px;
+width: 600px;
+border-radius: 4px;
+border-bottom: 6px solid lightblue;
+    }
+
+    .image {
+        box-shadow: 1px 1px 3px lightgray;
+        max-height: 600px;
+    }
+
+
+    .click {
+        color: blue;
+        background-color: white;
+        border-color: blue;
+    }
+
+
+
+    .box {
+        width: 40%;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.2);
+        padding: 35px;
+        border: 2px solid #fff;
+        border-radius: 20px/50px;
+        background-clip: padding-box;
+        text-align: center;
+    }
+
+    .button {
+        font-size: 1em;
+        padding: 10px;
+        color: #fff;
+        border: 2px solid #06D85F;
+        border-radius: 20px/50px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+
+        .button:hover {
+            background: #06D85F;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 30%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+        .popup .close {
+            transition: all 200ms;
+            text-decoration: none;
+        }
+
+            .popup .close:hover {
+                color: #06D85F;
+            }
+
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+
+    /*    ==================================================================================================*/
+
+
+
+
+
+    .cancel-btn {
+        background: lightcoral;
+        color: white;
+        padding: 11px 21px;
+        width: 200px !important;
+        border-radius: 20px;
+        border: none;
+        font-size: 1.5rem;
+        height: 55px !important;
+        display: grid;
+        text-decoration: none;
+        text-align: center;
+    }
+
+        .cancel-btn:hover {
+            color: white;
+        }
+
+    .delete-btn {
+        background: lightgreen;
+        color: white;
+        padding: 11px 21px;
+        width: 200px;
+        border-radius: 20px;
+        border: none;
+        font-size: 1.5rem;
+        height: 56px;
+        text-decoration: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .alert-delete {
+        display: flex;
+        position: absolute;
+        border: 1px solid lightcyan;
+        border-radius: 20px;
+        width: 700px;
+        height: 400px;
+        background: white;
+        box-shadow: 3px 3px 5px lightgray;
+        left: 28%;
+        top: 26%;
+        flex-direction: column;
+    }
+
+    .more-menu {
+        transition: all 0.5s ease 0s;
+        position: absolute;
+        inset: 0px auto auto 0px;
+        margin: 0px;
+        transform: translate(-168px, 52px);
+        width: 218px;
+        height: 150px;
+    }
+
+        .more-menu:before {
+            transform: translate(-168px, 12px);
+        }
+
+        .more-menu:after {
+            transform: translate(-168px, 52px);
+        }
+
+    .more-btn {
+        border-radius: 10px;
+        height: 50px;
+        width: 50px;
+    }
+
+    .li-more:hover {
+        background-color: lightcyan;
+        color: white;
+        cursor: pointer;
+        transition: .5s all;
+    }
+</style>
+@*
+    <script>
+    function BTNPress(status){
+    if (status == 0){
+    document.getElementById("click").style.color = "blue";
+    status = 1;
+    }
+    else(status == 1){
+    document.getElementById("click").style.color = "red";
+    status = 0;
+    }
+    }
+    </script> *@
+
+
+
+
+

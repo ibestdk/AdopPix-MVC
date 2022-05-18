@@ -109,7 +109,7 @@ namespace AdopPix.Controllers
             return View(postViewModels);
         }
 
-        [HttpGet("Post/{id}")]
+        [HttpGet("Illustration/Post/{id}")]
         public async Task<IActionResult> FindById(string id = "")
         {
             ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
@@ -122,6 +122,7 @@ namespace AdopPix.Controllers
 
             var user = await userManager.FindByIdAsync(post.UserId);
             var image = await postProcedure.FindImageByPostIdAsync(id);
+            var allImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
 
             ShowDirectPostViewModel showDirectPostViewModel = new ShowDirectPostViewModel
             {
@@ -129,15 +130,19 @@ namespace AdopPix.Controllers
                 Title = post.Title,
                 Description = post.Description,
                 UserName = user.UserName,
-                ImageName = image.ImageId
+                ImageName = image.ImageId,
+                UserId =post.UserId,
+                Create = post.Created
+          
             };
 
             ViewData["Post"] = showDirectPostViewModel;
+            ViewData["userimageAuctions"] = allImagesUser;
 
             return View();
         }
 
-        [HttpGet("/post/remove/{id}")]
+        [HttpGet("/illustration/remove/{id}")]
         public async Task<IActionResult> DeleteById(string id)
         {
             // หาว่าต้องลบโพสไหน
@@ -161,7 +166,8 @@ namespace AdopPix.Controllers
             await postProcedure.DeletePostAsync(post);
 
 
-            return Redirect("/Post");
+
+            return Redirect("/illustration");
         }
 
         [HttpGet("/post/[action]/{postId}")]
@@ -176,15 +182,23 @@ namespace AdopPix.Controllers
             }
 
             var image = await postProcedure.FindImageByPostIdAsync(postId);
+            var users = await userManager.FindByIdAsync(post.UserId);
+            var allImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
+            var allAuctionUsers = await auctionProcedure.GetAllUserDetailAsync();
+
 
             EditViewModel edit = new EditViewModel
             {
                 PostId = post.PostId,
                 Title = post.Title,
                 Description = post.Description,
-                ImageName = image.ImageId
-            };
+                ImageName = image.ImageId,
+                UserId = post.UserId,
 
+
+            };
+            ViewData["userimageAuctions"] = allImagesUser;
+            ViewData["userAuctions"] = allAuctionUsers;
             return View(edit);
         }
 
@@ -192,7 +206,7 @@ namespace AdopPix.Controllers
         public async Task<IActionResult> Edit(EditViewModel model)
         {
             ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
-
+            var allImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
             var post = await postProcedure.FindByPostId(model.PostId);
             if (post != null)
             {
@@ -203,7 +217,10 @@ namespace AdopPix.Controllers
                     Description = model.Description
                 };
                 await postProcedure.UpdatePostAsync(postModel);
-                return Redirect("/Post");
+                ViewData["userimageAuctions"] = allImagesUser;
+
+
+                return RedirectToAction("Post", "illustration", new { id = postModel.PostId });
             }
             return View(model);
         }
