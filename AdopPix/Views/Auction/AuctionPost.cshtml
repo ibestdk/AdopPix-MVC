@@ -11,30 +11,30 @@
             <div style="display: flex;flex-direction: row;">
                 <div style="margin-left: 100%;margin-bottom: 50px;">
 
-                <div class="dropdown">
-                    <button class="more-btn btn bg-transparent dropdown-toggle" type="button" id="Notification" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-ellipsis-vertical fa-xl" style="color: #B7B7B7;"></i>
-                    </button>
-                    <ul class="dropdown-menu m-3 dropdown-menu-end more-menu overflow-auto" aria-labelledby="Notification" id="NotificationPush">
+                    <div class="dropdown">
+                        <button class="more-btn btn bg-transparent dropdown-toggle" type="button" id="Notification" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-ellipsis-vertical fa-xl" style="color: #B7B7B7;"></i>
+                        </button>
+                        <ul class="dropdown-menu m-3 dropdown-menu-end more-menu overflow-auto" aria-labelledby="Notification" id="NotificationPush">
 
 
-                        <li class="li-more" style="  padding: 5px 10px;height: 50px;}">
-                            <a style="padding: 5px 10px;font-size: 1.4rem;"href="/Auction/Edit/@Model.AuctionId">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                Edit Auction
-                            </a>
-                        </li>
-                        <li class="li-more" style="  padding: 5px 10px;height: 50px;}">
-                            <a style="padding: 5px 10px;font-size: 1.4rem;" href="#popup1">
-                                <i class="fa-solid fa-trash-can"></i>
-                                Delete Auction
-                            </a>
-                        </li>
-                    </ul>
+                            <li class="li-more" style="  padding: 5px 10px;height: 50px;}">
+                                <a style="padding: 5px 10px;font-size: 1.4rem;" href="/Auction/Edit/@Model.AuctionId">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Edit Auction
+                                </a>
+                            </li>
+                            <li class="li-more" style="  padding: 5px 10px;height: 50px;}">
+                                <a style="padding: 5px 10px;font-size: 1.4rem;" href="#popup1">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                    Delete Auction
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-}
+        }
 
         <div id="popup1" class="overlay">
             <div class="">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
 
 
 
@@ -93,7 +93,7 @@
                 <div>
                     <div>
                         <div style="text-align: right;font-family: 'Roboto';font-style: normal;font-weight: 900;font-size: 48px;line-height: 56px;color: #A0D1BA;">
-                            @if(ViewBag.WinningBid)
+                            @if (ViewBag.WinningBid)
                             {
                                 <p style="font-size: 33px;">การประมูลจบลงแล้ว</p>
                             }
@@ -108,7 +108,7 @@
                                     <p style="font-size: 33px;" id="bidAmount">@Model.Price</p>
                                 }
                             }
-                            
+
 
                         </div>
                         <hr style="margin-top: 0px;margin-bottom: 0px;" />
@@ -116,7 +116,7 @@
                             <div style="font-weight: 900;font-size: 18px;line-height: 21px;color: #8D8D8D;">
                                 By
                             </div>
-                            @if(string.IsNullOrEmpty(Model.LastBid))
+                            @if (string.IsNullOrEmpty(Model.LastBid))
                             {
                                 <div id="lastBid" style="margin-left:15px; font-weight: 900;font-size: 18px;line-height: 21px;color: #000000;">
                                     ยังไม่มีคนเริ่มประมูล   @*คนประมูล*@
@@ -133,27 +133,29 @@
                         </div>
                     </div>
                 </div>
-                @if(!ViewBag.WinningBid)
+                @if (Model.UserName != User.Identity.Name)
                 {
-                    <form action="/Auction/Bid/@Model.AuctionId" method="post">
-                        <div class="form-group" style="display: flex;flex-direction: row;">
-                            <div style="display: flex;flex-direction: row;background: #E3E3E3;border-radius: 50px;">
-                                <div>
-                                    <input type="number" name="amount" class="form-control" style="background: none;border: none;text-align: right;" />
-                                </div>
-                                <div>
-                                    <input type="submit" value="Bids" class="btn btn-outline-success float-right" style="border: none;border-radius: 50px;background: #4F9FDA;width: 82px;color: white;font-weight: 800;" />
-                                </div>
+                    @if (!ViewBag.WinningBid)
+                    {
+                        <form action="/Auction/Bid/@Model.AuctionId" method="post">
+                            <div class="form-group" style="display: flex;flex-direction: row;">
+                                <div style="display: flex;flex-direction: row;background: #E3E3E3;border-radius: 50px;">
+                                    <div>
+                                        <input type="number" name="amount" class="form-control" style="background: none;border: none;text-align: right;" />
+                                    </div>
+                                    <div>
+                                        <input type="submit" value="Bids" class="btn btn-outline-success float-right" style="border: none;border-radius: 50px;background: #4F9FDA;width: 82px;color: white;font-weight: 800;" />
+                                    </div>
 
+                                </div>
                             </div>
-                        </div>
-                        @if (ViewBag.ErrorBid != null)
-                        {
-                            <span class="text-danger">@ViewBag.ErrorBid</span>
-                        }
-                    </form>
+                            @if (ViewBag.ErrorBid != null)
+                            {
+                                <span class="text-danger">@ViewBag.ErrorBid</span>
+                            }
+                        </form>
+                    }
                 }
-                
             </div>
         </div>
         <div>
@@ -190,20 +192,20 @@
 
 
 <script>
-        $(function(){
-      $("button").click(function(){
-        $(".cover").fadeIn("300");
-      })
-      $(".cover,.close").click(function(){
-        $(".cover").fadeOut("300");
-      })
-      $(".contents").click(function(e){
-        e.stopPropagation();
-      })
+    $(function() {
+        $("button").click(function() {
+            $(".cover").fadeIn("300");
+        })
+        $(".cover,.close").click(function() {
+            $(".cover").fadeOut("300");
+        })
+        $(".contents").click(function(e) {
+            e.stopPropagation();
+        })
     })
 </script>
 
-@if(Model.StopTime == Convert.ToDateTime(null) || ViewBag.WinningBid)
+@if (Model.StopTime == Convert.ToDateTime(null) || ViewBag.WinningBid)
 {
     <script>
         document.getElementById('hh').innerHTML = '00';
@@ -215,29 +217,29 @@ else
 {
     <script>
 
-    // Set the date we're counting down to
-    console.log()
-  var countDownDate = new Date(`@Model.StopTime.ToString()`).getTime();
+        // Set the date we're counting down to
+        console.log()
+        var countDownDate = new Date(`@Model.StopTime.ToString()`).getTime();
 
-  // Update the count down every 1 second
-  var x = setInterval(function() {
-    var now = new Date().getTime();
-    var distance = countDownDate - now;
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
 
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    document.getElementById('hh').innerHTML = hours;
-    document.getElementById('mm').innerHTML = minutes;
-    document.getElementById('ss').innerHTML = seconds;
+            document.getElementById('hh').innerHTML = hours;
+            document.getElementById('mm').innerHTML = minutes;
+            document.getElementById('ss').innerHTML = seconds;
 
-    if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("demo").innerHTML = "EXPIRED";
-    }
-  }, 1000);
-</script>
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    </script>
 }
 
 <script>
@@ -256,127 +258,132 @@ else
     }
     auctionHub.start().then(onConnected, onFailed);
 </script>
-    
+
 <style>
-/*    ==================================================================================================*/
+    /*    ==================================================================================================*/
 
-.box {
-  width: 40%;
-  margin: 0 auto;
-  background: rgba(255,255,255,0.2);
-  padding: 35px;
-  border: 2px solid #fff;
-  border-radius: 20px/50px;
-  background-clip: padding-box;
-  text-align: center;
-}
-
-.button {
-  font-size: 1em;
-  padding: 10px;
-  color: #fff;
-  border: 2px solid #06D85F;
-  border-radius: 20px/50px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease-out;
-}
-.button:hover {
-  background: #06D85F;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  transition: opacity 500ms;
-  visibility: hidden;
-  opacity: 0;
-}
-.overlay:target {
-  visibility: visible;
-  opacity: 1;
-}
-
-.popup {
-  margin: 70px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 5px;
-  width: 30%;
-  position: relative;
-  transition: all 5s ease-in-out;
-}
-
-.popup .close {
-  transition: all 200ms;
-
-  text-decoration: none;
-}
-.popup .close:hover {
-  color: #06D85F;
-}
-.popup .content {
-  max-height: 30%;
-  overflow: auto;
-}
-
-/*    ==================================================================================================*/
-
-
-
-
-
-    .cancel-btn{
-background: lightcoral;
-color: white;
-padding: 11px 21px;
-width: 200px !important;
-border-radius: 20px;
-border: none;
-font-size: 1.5rem;
-height: 55px !important;
-display: grid;
-text-decoration: none;
-text-align: center;
-
+    .box {
+        width: 40%;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.2);
+        padding: 35px;
+        border: 2px solid #fff;
+        border-radius: 20px/50px;
+        background-clip: padding-box;
+        text-align: center;
     }
-    .cancel-btn:hover{
-        color:white;
 
-    }
-    .delete-btn{
-        background: lightgreen;
-color: white;
-padding: 11px 21px;
-width: 200px;
-border-radius: 20px;
-border: none;
-font-size: 1.5rem;
-height: 56px;
-text-decoration: none;
-
-    }
-    a{
+    .button {
+        font-size: 1em;
+        padding: 10px;
+        color: #fff;
+        border: 2px solid #06D85F;
+        border-radius: 20px/50px;
         text-decoration: none;
-color: black;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
     }
-    .alert-delete{
+
+        .button:hover {
+            background: #06D85F;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 30%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+        .popup .close {
+            transition: all 200ms;
+            text-decoration: none;
+        }
+
+            .popup .close:hover {
+                color: #06D85F;
+            }
+
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+
+    /*    ==================================================================================================*/
+
+
+
+
+
+    .cancel-btn {
+        background: lightcoral;
+        color: white;
+        padding: 11px 21px;
+        width: 200px !important;
+        border-radius: 20px;
+        border: none;
+        font-size: 1.5rem;
+        height: 55px !important;
+        display: grid;
+        text-decoration: none;
+        text-align: center;
+    }
+
+        .cancel-btn:hover {
+            color: white;
+        }
+
+    .delete-btn {
+        background: lightgreen;
+        color: white;
+        padding: 11px 21px;
+        width: 200px;
+        border-radius: 20px;
+        border: none;
+        font-size: 1.5rem;
+        height: 56px;
+        text-decoration: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .alert-delete {
         display: flex;
-position: absolute;
-border: 1px solid lightcyan;
-border-radius: 20px;
-width: 700px;
-height: 400px;
-background: white;
-box-shadow: 3px 3px 5px lightgray;
-left: 28%;
-top: 26%;
-flex-direction: column;
+        position: absolute;
+        border: 1px solid lightcyan;
+        border-radius: 20px;
+        width: 700px;
+        height: 400px;
+        background: white;
+        box-shadow: 3px 3px 5px lightgray;
+        left: 28%;
+        top: 26%;
+        flex-direction: column;
     }
+
     .more-menu {
         transition: all 0.5s ease 0s;
         position: absolute;

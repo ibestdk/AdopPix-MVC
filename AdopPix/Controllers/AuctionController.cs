@@ -305,6 +305,12 @@ namespace AdopPix.Controllers
                 return Redirect($"/Auction/Post/{auctionId}");
             }
 
+            if(user.Id == auction.UserId)
+            {
+                TempData["ErrorBid"] = $"You can't put money";
+                return Redirect($"/Auction/Post/{auctionId}");
+            }
+
             DateTime createdAt = DateTime.Now;
             if (auction.StartTime == null)
             {
