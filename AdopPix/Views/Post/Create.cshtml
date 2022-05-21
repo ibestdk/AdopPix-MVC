@@ -1,23 +1,54 @@
-﻿@*
+﻿@model Post
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
-<h1>Create Post</h1>
-<form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="mb-3">
-        <label for="image">Select image :</label>
-        <input type="file" id="image" name="Image" accept="image/*" class="form-control" required>
+<h1>Create Illustration Post</h1>
+
+<div>
+
+
+    <div>
+        <p style="text-align: center;">
+            <img id="blah" class="image" src="@Url.Content($"https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/cover-default.jpg")" style="height: 500px;width: 700px; object-fit: cover;" />
+        </p>
+
     </div>
-    <div class="mb-3">
-        <label for="title">Title</label>
-        <input type="text" id="title" name="Title" class="form-control" required/>
-    </div>
-    <div class="mb-3">
-        <label for="description">Description</label>
-        <input type="text" id="description" name="Description" class="form-control" required/>
-    </div>
-    <div class="mb-3">
-        <input type="submit" class="btn btn-success" value="Submit" />
-    </div>
-</form>
+
+
+    <form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data" style="width: 430px;margin: auto;">
+        <div class="mb-3">
+            <label for="image">Select image :</label>
+            <input type="file" id="image imgInp" name="Image" accept="image/*" class="form-control" required>
+        </div>
+
+
+
+        <div class="mb-3">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="Title" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label for="description">Description</label>
+            <input type="text" id="description" name="Description" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-success" value="Submit" />
+        </div>
+    </form>
+
+</div>
+
+
+
+<script>
+    imgInp.onchange = evt => {
+        const [file] = imgInp.files
+        if (file) {
+            blah.src = URL.createObjectURL(file)
+        }
+    }
+
+
+</script>
