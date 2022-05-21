@@ -38,13 +38,13 @@
         <div class="navbar-nav" style="align-items: center;">
             <div class="dropdown">
                 <button class="notification btn bg-transparent dropdown-toggle" type="button" id="Notification" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-regular fa-bell fa-xl" style="color: #B7B7B7;"></i>
+                    <i class="fa-regular fa-bell fa-xl nav-noti-icon" style="color: #B7B7B7;"></i>
                 </button>
                 <ul class="dropdown-menu m-3 dropdown-menu-end notification-menu overflow-auto" aria-labelledby="Notification" id="NotificationPush">
                     <li>
                         <div style="margin-left: 30px;font-size: 1rem;font-weight: 700;margin-top: 10px; display: flex;">
                             <p style="margin-right:10px">
-                                <i class="fa-solid fa-bell"></i>
+                                <i class="fa-solid fa-bell" style=" color: #333333;"></i>
                             </p>
                             <p >Notification</p>
                         </div>
@@ -140,7 +140,16 @@
 
 
 <style>
-
+    .nav-noti-icon:hover{
+        color: #4F9FDA !important;
+        transition: .5s all;
+        background: lightgray;
+    }
+        .nav-noti-icon:focus{
+        color: #4F9FDA !important;
+        transition: .5s all;
+        background: lightgray;
+    }
 
     .navbar-logo {
         font-size: 1.8rem;
@@ -205,6 +214,10 @@
         border-radius: 50px;
         height: 50px;
         width: 50px;
+    }
+    .notification:focus {
+        transition: .5s all;
+        color: #4F9FDA !important;
     }
 
     .profileIco {
