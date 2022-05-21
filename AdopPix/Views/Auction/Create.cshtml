@@ -4,7 +4,7 @@
 
         <div>
             <p style="text-align: center;">
-                <img id="blah" class="image" src="@Url.Content($"https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/cover-default.jpg")" style="height: 500px;width: 700px; object-fit: cover;" />
+                <img id="blah" class="image" src="@Url.Content($"https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/cover-default.jpg")" style="height: 500px;width: auto; object-fit: cover;" />
             </p>
 
         </div>
@@ -60,7 +60,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label asp-for="OpeningPrice" class="control-label"></label>
-                                <input asp-for="OpeningPrice" type="number" class="form-control"/>
+                                <input value="0" asp-for="OpeningPrice" type="number" class="form-control"/>
                                 <span asp-validation-for="OpeningPrice" class="text-danger"></span>
                             </div>
                             <div class="form-group">

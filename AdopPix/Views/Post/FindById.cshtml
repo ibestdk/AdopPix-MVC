@@ -110,19 +110,19 @@
                                 <a class="" asp-action="Like" asp-route-postId="@data.PostId">
                                     @if(data.UserLikeStatus == 0)
                                             {
-                                                <i class="fa-solid fa-heart fa-xl" style="color: lightgray;"></i>
+                                                <i class="fa-solid fa-heart fa-xl unlike"></i>
 
                                             }
                                             @if (data.UserLikeStatus == 1)
                                             {
-                                                <i class="fa-solid fa-heart fa-xl" style="color: red;"></i>
+                                                <i class="fa-solid fa-heart fa-xl like"></i>
 
                                             }
                                     
                                 </a>
                             </div>
                             <div class="" style="font-size: 1rem;font-weight: 600;color: gray;">
-                                Like : @data.LikeCount
+                               @data.LikeCount
                             </div>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                         </p>
                         <div style="font-size: 1rem;font-weight: 600;color: gray;">
 
-                        View : 0
+                        0
                          </div>
                     </div>
                 </div>
@@ -180,6 +180,22 @@
 
 
 <style>
+    .unlike{
+        color: lightgray;
+        transition: .5s all;
+    }    
+    .unlike:hover{
+        color: red;
+        transition: .5s all;
+    }
+        .like{
+        color: red;
+        transition: .5s all;
+    }       
+    .like:hover{
+        color: lightgray;
+        transition: .5s all;
+    }
     .btn-comment {
         border-radius: 50px;
         padding: 13px 16px;

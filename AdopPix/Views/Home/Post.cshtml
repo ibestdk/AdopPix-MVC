@@ -5,30 +5,30 @@
 <div class="page-ctr" style="margin-top: 20%">
 
     <div class="aflex-row">
-        <div class="auction-btn">
-            <div style="margin-top: 16%;">
-                <a class="" style="text-align: center;" href="/Auction/Create">
+        <a class="auction-btn" style="text-align: center;" href="/Auction/Create">
+            <div class="">
+                <div style="margin-top: 16%;">
                     <p style="text-align: center;">
                         <i class="fa-solid fa-gavel fa-4x"></i>
                     </p>
                     <h3>Upload Auction</h3>
 
-                </a>
 
+                </div>
             </div>
-        </div>
+        </a>
 
 
-        <div class="illustation-btn">
-            <div style="margin-top: 16%;">
-                <a class="" style="text-align: center;" href="/Post/Create">
+        <a class="illustation-btn" style="text-align: center;" href="/Post/Create">
+            <div class="">
+                <div style="margin-top: 16%;">
                     <p style="text-align: center;">
                         <i class="fa-solid fa-paintbrush fa-4x"></i>
                     </p>
                     <h3>Upload illustration</h3>
-                </a>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
 
 
@@ -60,6 +60,15 @@ color: white;
 width: 340px;
 margin: 0 auto;
 height: 300px;
+transition: .5s all;
+
+
+
+
+}
+.auction-btn:hover{
+    opacity: 0.7;
+    transition: .5s all;
 
 
 }
@@ -71,9 +80,15 @@ color: white;
 width: 340px;
 margin: 0 auto;
 height: 300px;
+transition: .5s all;
 
 }
+.illustation-btn:hover{
+    opacity: 0.7;
+    transition: .5s all;
 
+
+}
 
 .aflex-row{
       display: flex;

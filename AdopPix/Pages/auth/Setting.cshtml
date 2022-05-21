@@ -4,13 +4,53 @@
     ViewBag.NavbarIsShow = true;
 }
 <h1>Security Setting</h1>
-@if(Model.settingViewModel.EnableTwoFactor)
-{
-    <a class="btn btn-danger" asp-page="/auth/AuthenticatorDisable">Disable multi factor authentication</a>
-}
-else
-{
-    <a class="btn btn-success" asp-page="/auth/AuthenticatorSetup">Enable multi factor authentication</a>
-}
-<a class="btn btn-success" asp-page="/auth/ChangePassword">Change password</a>
-<a class="btn btn-success" asp-page="/auth/ChangeEmail">Change Email</a>
+
+<div style="margin-top:50px; width:auto ;display:flex; flex-direction: column;">
+    <div style="margin-top:50px;">
+
+        @if (Model.settingViewModel.EnableTwoFactor)
+        {
+            <a class="btn-setting" asp-page="/auth/AuthenticatorDisable">
+                <i class="fa-solid fa-lock-keyhole"></i>
+                Disable multi factor authentication
+            </a>
+        }
+        else
+        {
+            <a class="btn-setting" asp-page="/auth/AuthenticatorSetup"> Enable multi factor authentication</a>
+        }
+    </div>
+    <div  style="margin-top:50px;">
+
+        <a class="btn-setting" asp-page="/auth/ChangePassword">Change password</a>
+    </div>
+    <div  style="margin-top:50px;">
+
+        <a class="btn-setting" asp-page="/auth/ChangeEmail">Change Email</a>
+
+    </div>
+</div>
+
+
+
+
+<style>
+
+    .btn-setting {
+        border-radius: 20px;
+        padding: 18px 20px;
+        background: #4F9FDA !important;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border: none;
+        transition: .5s all;
+        color: white;
+        text-decoration: none;
+    }
+
+        .btn-setting:hover {
+            opacity: 0.7;
+            transition: .5s all;
+            color: white;
+        }
+</style>

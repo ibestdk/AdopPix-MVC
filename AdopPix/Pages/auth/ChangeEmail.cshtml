@@ -4,7 +4,12 @@
     ViewBag.NavbarIsShow = true;
 }
 
-@if (Model.isSend)
+<div>
+
+
+    <div style="margin-top:70px">
+
+    @if (Model.isSend)
 {
     <div class="w-100 d-flex justify-content-center align-items-center mt-3" style="height: 75vh;">
         <div class="h-75">
@@ -21,7 +26,11 @@
 else
 {
     <div class="d-flex justify-content-center">
-        <div class="w-50">
+        <div class="" style="width: 500px;box-shadow: 1px 1px 37px lightgray;padding: 100px 30px;border-radius: 20px;">
+            <h3 style="margin-bottom:70px">
+
+            Change Email Address
+        </h3>
             <form method="post">
                 <div class="mb-3">
                     <label>New email</label>
@@ -29,11 +38,57 @@ else
                     <span asp-validation-for="changeEmailViewModel.Email" class="text-danger"></span>
                 </div>
                 <div class="d-grid gap-2">
-                    <input type="submit" value="submit" class="btn btn-success w-100 mb-2" />
-                    <a asp-page="/auth/setting" class="btn btn-outline-danger w-100 mb-2">Cancle</a>
+                    <input type="submit" value="submit" class="submit" />
+                    <a asp-page="/auth/setting" class="cancel mb-2">Cancle</a>
                 </div>
             </form>
         </div>
     </div>
 }
+
+    </div>
+</div>
+
+
+
+<style>
+    .submit {
+        background-color: #4F9FDA;
+        color: white;
+        border-radius: 41px;
+        padding: 6px;
+        text-decoration: none;
+        margin-bottom: 30px;
+        margin-top: 15px;
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 30px;
+        border: none;
+        transition: .5s all;
+    }
+            .submit:hover {
+            opacity: 0.8;
+            transition: .5s all;
+        }
+
+    .cancel {
+        background-color: white;
+        color: #5F5F5F;
+        border-radius: 41px;
+        padding: 6px;
+        text-decoration: none;
+        box-shadow: 1px 1px 1px rgb(197, 197, 197);
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 30px;
+        display: grid;
+        text-align: center;
+        transition: .5s all;
+    }
+
+        .cancel:hover {
+            opacity: 0.8;
+            transition: .5s all;
+        }
+</style>
 
