@@ -251,26 +251,6 @@ namespace AdopPix.Procedure
             }
         }
 
-        public async Task LikeAsync(PostLike postId)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                using (MySqlCommand command = connection.CreateCommand())
-                {
-                    command.CommandText = "Post_Like";
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = postId.PostId;
-                    command.Parameters.Add("@UserId", MySqlDbType.VarChar).Value = postId.UserId;
-                    command.Parameters.Add("@Created", MySqlDbType.DateTime).Value = postId.Created;
-
-                    await connection.OpenAsync();
-                    await command.ExecuteNonQueryAsync();
-                    await connection.CloseAsync();
-                }
-            }
-        }
-
         public async Task<List<PostImage>> GetAllImageAsync()
         {
             List<PostImage> posts = new List<PostImage>();
@@ -302,13 +282,109 @@ namespace AdopPix.Procedure
             return posts;
         }
 
-
-        public async Task UnLikeAsync(PostLike postId)
+        public async Task LikeAsync(PostLike postlike)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_Like";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = postlike.PostId;
+                    command.Parameters.Add("@UserId", MySqlDbType.VarChar).Value = postlike.UserId;
+                    command.Parameters.Add("@Created", MySqlDbType.DateTime).Value = postlike.Created;
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                    await connection.CloseAsync();
+                }
+            }
         }
 
+        public async Task UnLikeAsync(PostLike postLike)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_UnLike";
+                    command.CommandType = CommandType.StoredProcedure;
 
+                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = postLike.PostId;
+                    command.Parameters.Add("@UserId", MySqlDbType.VarChar).Value = postLike.UserId;
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                    await connection.CloseAsync();
+                }
+            }
+        }
+
+        public async Task CheckLikeStatusById(PostLike postLike)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_ReadStatusLike";
+                    command.CommandType = CommandType.StoredProcedure;
+                }
+            }
+        }
+
+        public async Task ShowLikeById(PostLike postLike)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_ShowLike";
+                    command.CommandType = CommandType.StoredProcedure;
+                }
+            }
+        }
+
+        /*public async Task CreateCommentAsync(PostComment postComment)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_CreateComment";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@CommentId", MySqlDbType.Int32).Value = postComment.CommentId;
+                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = postComment.PostId;
+                    command.Parameters.Add("@UserId", MySqlDbType.VarChar).Value = postComment.UserId;
+                    command.Parameters.Add("@Description", MySqlDbType.VarChar).Value = postComment.Description;
+                    command.Parameters.Add("@Created", MySqlDbType.DateTime).Value = postComment.Created;
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                    await connection.CloseAsync();
+                }
+            }
+        }
+
+        public async Task DeleteCommentAsync(PostComment postComment)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_DeleteComment";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@CommentId", MySqlDbType.VarChar).Value = postComment.CommentId;
+                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = postComment.PostId;
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                    await connection.CloseAsync();
+                }
+            }
+        } */
 
     }
 }

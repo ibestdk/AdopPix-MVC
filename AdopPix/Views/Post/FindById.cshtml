@@ -86,11 +86,41 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col">
-
+            <div class="col align-self-end">
+                <div class="row">
+                    <p>
+                        No Comment System Yet
+                    </p>
+                </div>
+                <div class="row ">
+                    <div class="col">
+                        <textarea class="form-control" style="resize:none;" placeholder="Comment Goes Here"></textarea>
+                    </div>
+                    <div class="col-3 align-self-center">
+                        <button class="btn btn-primary">Comment</button>
+                    </div>
+                </div>
+                
             </div>
-            <div class="col" style="margin-left: 20%; margin-top:60px;">
-                        <div style=" display: flex; flex-direction: row; padding: 0 20px;margin-top: -12px;font-size: 1rem;font-weight: bold;">
+            <div class="col" style="margin-top:20px;">
+                <div class="row mb-5">
+                    <div class="col">
+                        <div class="row justify-content-center">
+                            <div class="col-3">
+                                <button class="btn btn-primary">Like</button>
+                            </div>
+                            <div class="col-4">
+                                Like : 0
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <i class="fa-solid fa-eye"></i>
+                        View : 0
+                    </div>
+                </div>
+                <div class="row">
+                    <div style=" display: flex; flex-direction: row; padding: 0 20px;margin-top: -12px;font-size: 1rem;font-weight: bold;">
                             <div>
                                 <p>
                                     <img draggable="false" oncontextmenu="return false;" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@std3.AvatarName}")" style="border-radius: 50%; width: 40px; height: 40px; object-fit: cover; border:1px solid #EDEDED;top: 24%;background: white;" id="blah" />
@@ -115,8 +145,8 @@
                                 </div>
                             </div>
                         </div>
-
-                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

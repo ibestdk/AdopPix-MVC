@@ -15,8 +15,12 @@ namespace AdopPix.Procedure.IProcedure
         Task DeleteImageAsync(PostImage postId);
         Task UpdatePostAsync(Post entity);
         Task UpdateImageAsync(PostImage imageId);
-        Task LikeAsync(PostLike postId);
-        Task UnLikeAsync(PostLike postId);
         Task<List<PostImage>> GetAllImageAsync();
+        Task LikeAsync(PostLike postlike);
+        Task UnLikeAsync(PostLike postlike);
+        Task CheckLikeStatusById(PostLike postlike);
+        Task ShowLikeById(PostLike postlike);
+        /*Task CreateCommentAsync(PostComment postComment);
+        Task DeleteCommentAsync(PostComment postComment);*/
     }
 }
