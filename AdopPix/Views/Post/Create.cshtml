@@ -13,14 +13,13 @@
         <p style="text-align: center;">
             <img id="blah" class="image" src="@Url.Content($"https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/cover-default.jpg")" style="height: 500px;width: 700px; object-fit: cover;" />
         </p>
-
     </div>
 
 
     <form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data" style="width: 430px;margin: auto;">
         <div class="mb-3">
             <label for="image">Select image :</label>
-            <input type="file" id="image imgInp" name="Image" accept="image/*" class="form-control" required>
+            <input type="file" id="image" name="Image" accept="image/*" class="form-control" required>
         </div>
 
 
@@ -43,12 +42,10 @@
 
 
 <script>
-    imgInp.onchange = evt => {
-        const [file] = imgInp.files
+    image.onchange = evt => {
+        const [file] = image.files
         if (file) {
             blah.src = URL.createObjectURL(file)
         }
     }
-
-
 </script>
