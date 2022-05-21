@@ -102,7 +102,6 @@
     let server = new signalR.HubConnectionBuilder().withUrl("/hubs/notification").build();
 
     server.on("notification", (response) => {
-        console.log(`${response.avatarName}`);
         $('#NotificationPush').prepend(
             `<li>
                 <a href="${response.redirectToUrl}" class="notification-a dropdown-item">

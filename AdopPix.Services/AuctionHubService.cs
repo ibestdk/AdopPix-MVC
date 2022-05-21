@@ -23,8 +23,8 @@ namespace AdopPix.Services
             await hubContext.Clients.All.SendAsync(model.auctionId, new { username = model.UserName, 
                                                                           avatarName = model.AvatarName,
                                                                           amount = model.Amount,
-                                                                          created = model.Created
-                                                                        });
+                                                                          created = model.Created.ToString("dddd, dd MMMM yyyy hh:mm:ss")
+            });
         }
     }
 }

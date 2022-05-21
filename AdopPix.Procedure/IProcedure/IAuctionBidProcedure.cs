@@ -9,5 +9,6 @@ namespace AdopPix.Procedure.IProcedure
         Task Create(AuctionBid entity);
         Task<AuctionBid> FindMaxAmountByAuctionId(string auctionId);
         Task<List<AuctionBid>> FindUserLoseAuction(string auctionId);
+        Task<List<AuctionBidFindByAuctionId>> FindByAuctionId(string auctionId);
     }
 }

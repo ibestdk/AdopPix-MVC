@@ -41,6 +41,39 @@ namespace AdopPix.Procedure
             }
         }
 
+        public async Task<List<AuctionBidFindByAuctionId>> FindByAuctionId(string auctionId)
+        {
+            List<AuctionBidFindByAuctionId> results = new List<AuctionBidFindByAuctionId>();
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "AuctionBids_FindByAuctionId";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@AuctionId", MySqlDbType.VarChar).Value = auctionId;
+
+                    await connection.OpenAsync();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        AuctionBidFindByAuctionId auctionBidFindByAuctionId = new AuctionBidFindByAuctionId()
+                        {
+                            AvatarName = reader["AvatarName"].ToString(),
+                            Amount = Convert.ToDecimal(reader["Amount"]),
+                            UserName = reader["UserName"].ToString(),
+                            Created = Convert.ToDateTime(reader["Created"])
+                        };
+                        results.Add(auctionBidFindByAuctionId);
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+            return results;
+        }
+
         public async Task<AuctionBid> FindMaxAmountByAuctionId(string auctionId)
         {
             AuctionBid auctionBid = null;

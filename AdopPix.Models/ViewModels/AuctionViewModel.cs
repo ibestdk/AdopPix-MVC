@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 
 namespace AdopPix.Models.ViewModels
 {
@@ -27,7 +28,7 @@ namespace AdopPix.Models.ViewModels
         public string AvaterName { get; set; }
         public string UserName { get; set; }
 
-
+        public List<AuctionBidFindByAuctionId> BidHistories { get; set; }
 
     }
 }
