@@ -86,37 +86,54 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col align-self-end">
+            <div class="col-8 align-self-end">
                 <div class="row">
                     <p>
-                        No Comment System Yet
+                        No Comment
                     </p>
                 </div>
                 <div class="row ">
                     <div class="col">
-                        <textarea class="form-control" style="resize:none;" placeholder="Comment Goes Here"></textarea>
+                        <textarea class="form-control" style="resize:none; border-radius: 16px;height: auto;" placeholder="Write Something"></textarea>
                     </div>
                     <div class="col-3 align-self-center">
-                        <button class="btn btn-primary">Comment</button>
+                        <button class="btn-comment">Comment</button>
                     </div>
                 </div>
                 
             </div>
             <div class="col" style="margin-top:20px;">
-                <div class="row mb-5">
-                    <div class="col">
-                        <div class="row justify-content-center">
-                            <div class="col-3">
-                                <a class="btn btn-primary" asp-action="Like" asp-route-postId="@data.PostId">Like</a>
+                <div class="mb-5"  style="display: flex;">
+                    <div class="" style="margin-right: 20px;">
+                        <div class="justify-content-center" style="display: flex;">
+                            <div class="" style="margin-right: 5px;">
+                                <a class="" asp-action="Like" asp-route-postId="@data.PostId">
+                                    @if(data.UserLikeStatus == 0)
+                                            {
+                                                <i class="fa-solid fa-heart fa-xl" style="color: lightgray;"></i>
+
+                                            }
+                                            @if (data.UserLikeStatus == 1)
+                                            {
+                                                <i class="fa-solid fa-heart fa-xl" style="color: red;"></i>
+
+                                            }
+                                    
+                                </a>
                             </div>
-                            <div class="col-4">
+                            <div class="" style="font-size: 1rem;font-weight: 600;color: gray;">
                                 Like : @data.LikeCount
                             </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="justify-content-center"  style="display: flex;">
+                        <p  style="margin-right: 5px;">
                         <i class="fa-solid fa-eye"></i>
+                        </p>
+                        <div style="font-size: 1rem;font-weight: 600;color: gray;">
+
                         View : 0
+                         </div>
                     </div>
                 </div>
                 <div class="row">
@@ -163,10 +180,24 @@
 
 
 <style>
+    .btn-comment {
+        border-radius: 50px;
+        padding: 13px 16px;
+        border: none;
+        background: #0096fa;
+        color: white;
+        font-size: 1rem;
+        font-weight: 700;
+        transition: .5s all;
+    }
 
-    #more{
-    transform: translate(-230px, 52px) !important
+        .btn-comment:hover {
+            opacity: 0.8;
+            transition: .5s all;
+        }
 
+    #more {
+        transform: translate(-230px, 52px) !important
     }
 
     .image {

@@ -11,6 +11,7 @@ namespace AdopPix.Models.ViewModels
         public string UserName { get; set; }
         public string UserId { get; set; }
         public int LikeCount { get; set; }
+        public int UserLikeStatus { get; set; }
         public DateTime Create { get; set; }    
     }
 }

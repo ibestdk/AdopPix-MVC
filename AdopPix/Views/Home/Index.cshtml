@@ -15,7 +15,7 @@
                 On Going Auction
             </h1>
         </div>
-        <div class="grid-container" style="    height: 275px; overflow: hidden;">
+        <div class="grid-container-5item" style="    height: 275px; overflow: hidden;">
 
             
 
@@ -39,7 +39,7 @@
 
                                     @if (std3.UserId == item.UserId)
                                     {
-                                        <a class="text-dark float-right" style="float: right;" asp-controller="Auction" asp-action="Post" asp-route-id="@item.AuctionId">
+                                        <a class="text-dark posthover float-right" style="float: right;" asp-controller="Auction" asp-action="Post" asp-route-id="@item.AuctionId">
                                             <div style="border-radius: 20px;width: 100%;height: 100%;">
 
                                                 <div>
@@ -119,7 +119,7 @@
                 Auction in Pending
             </h1>
         </div>
-        <div class="grid-container" style="    height: 275px; overflow: hidden;">
+        <div class="grid-container-5item" style="    height: 275px; overflow: hidden;">
 
             
 
@@ -143,7 +143,7 @@
 
                                     @if (std3.UserId == item.UserId)
                                     {
-                                        <a class="text-dark float-right" style="float: right;" asp-controller="Auction" asp-action="Post" asp-route-id="@item.AuctionId">
+                                        <a class="text-dark posthover float-right" style="float: right;" asp-controller="Auction" asp-action="Post" asp-route-id="@item.AuctionId">
                                             <div style="border-radius: 20px;width: 100%;height: 100%;">
 
                                                 <div>
@@ -251,7 +251,7 @@
 
                                     @if (std3.UserId == item.UserId)
                                     {
-                                        <a class="text-dark float-right" style="float: right;" asp-controller="Auction" asp-action="Post" asp-route-id="@item.AuctionId">
+                                        <a class="text-dark posthover float-right" style="float: right;" asp-controller="Auction" asp-action="Post" asp-route-id="@item.AuctionId">
                                             <div style="border-radius: 20px;width: 100%;height: 100%;">
 
                                                 <div>
@@ -350,7 +350,7 @@
                     
                         @if(std3.UserId == std.UserId)
                             {
-                                <a class="text-dark float-right" style="float: right;" asp-controller="Illustration" asp-action="Post" asp-route-id="@std.PostId">
+                                <a class="text-dark float-right posthover" style="float: right;" asp-controller="Illustration" asp-action="Post" asp-route-id="@std.PostId">
                                     <div style="border-radius: 20px;width: 100%;height: 100%; margin:10px">
 
                                         <div>
@@ -408,10 +408,31 @@
 </div>
 
 <style>
+    
+    .posthover {
+        text-decoration: none;
+        color: black;
+        transition: .5s all;
+    }
+
+        .posthover:hover {
+            opacity: 0.8;
+            color: #878787;
+            transition: .5s all;
+        }
+
+
 
     .grid-container {
         display: grid;
         grid-template-columns: auto auto auto auto auto auto;
+        gap: 10px;
+        /*background-color: #2196F3; */
+        padding: 10px;
+    }
+    .grid-container-5item {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
         gap: 10px;
         /*background-color: #2196F3; */
         padding: 10px;

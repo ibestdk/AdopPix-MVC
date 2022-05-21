@@ -21,11 +21,13 @@ namespace AdopPix.Controllers
         private readonly UserManager<User> userManager;
         private readonly IImageService imageService;
         private readonly IAuctionProcedure auctionProcedure;
+        private readonly IUserProfileProcedure userProfileProcedure;
 
         public PostController(IPostProcedure post,
                               INavbarService navbarService,
                               UserManager<User> userManager,
                               IImageService imageService,
+                              IUserProfileProcedure userProfileProcedure,
                               IAuctionProcedure auctionProcedure)
         {
             this.postProcedure = post;
@@ -33,6 +35,7 @@ namespace AdopPix.Controllers
             this.userManager = userManager;
             this.imageService = imageService;
             this.auctionProcedure = auctionProcedure;
+            this.userProfileProcedure = userProfileProcedure;
         }
 
         [HttpGet("Post/Create")]
@@ -124,6 +127,20 @@ namespace AdopPix.Controllers
             var image = await postProcedure.FindImageByPostIdAsync(id);
             var allImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
             var like = await postProcedure.ShowLikeById(id);
+            var useridcheck = await userProfileProcedure.FindByUserNameAsync(User.Identity.Name);
+            var likeStatus = await postProcedure.CheckLikeStatusById(id, useridcheck.UserId);
+            var UserLikeStatus = 0;
+            if (likeStatus != null)
+            {
+                UserLikeStatus = 1;
+            }
+            else
+            {
+
+                UserLikeStatus = 0;
+
+
+            }
 
             ShowDirectPostViewModel showDirectPostViewModel = new ShowDirectPostViewModel
             {
@@ -134,8 +151,12 @@ namespace AdopPix.Controllers
                 ImageName = image.ImageId,
                 UserId =post.UserId,
                 Create = post.Created,
-                LikeCount = like
+                LikeCount = like,
+                UserLikeStatus = UserLikeStatus
+
             };
+
+
 
             ViewData["Post"] = showDirectPostViewModel;
             ViewData["userimageAuctions"] = allImagesUser;

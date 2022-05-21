@@ -1,4 +1,5 @@
 ﻿using AdopPix.Models;
+using AdopPix.Models.ViewModels;
 using AdopPix.Procedure.IProcedure;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
@@ -79,6 +80,33 @@ namespace AdopPix.Procedure
                             Point = Convert.ToDecimal(reader["Point"].ToString()),
                             Rank = Convert.ToDecimal(reader["Rank"].ToString()),
                             Description = reader["Description"].ToString()
+                        };
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+            return userProfile;
+        }
+        public async Task<UserLikeViewModel> FindByUserNameAsync(string userName)
+        {
+            UserLikeViewModel userProfile = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "UserProfile_FindByUserName";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@UserName", MySqlDbType.VarChar).Value = userName;
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        userProfile = new UserLikeViewModel
+                        {
+                            UserId = reader["Id"].ToString(),
+                            UserName = reader["UserName"].ToString(),
+
                         };
                     }
                     await connection.CloseAsync();
