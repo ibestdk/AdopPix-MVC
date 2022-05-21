@@ -32,7 +32,6 @@ namespace AdopPix.Procedure
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                var generateAuctionId = GenerateAuctionId();
                 using (MySqlCommand command = connection.CreateCommand())
                 {
                     
@@ -51,10 +50,7 @@ namespace AdopPix.Procedure
                     await connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
                     await connection.CloseAsync();
-
-                    
                 }
-
             }
         }
 

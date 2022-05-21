@@ -1,14 +1,10 @@
 ﻿using AdopPix.Models;
-using AdopPix.Models.ViewModels;
 using AdopPix.Procedure.IProcedure;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AdopPix.Procedure
@@ -18,14 +14,12 @@ namespace AdopPix.Procedure
         // Dependencies
         private readonly IConfiguration configuration;
         private string connectionString;
-        private readonly UserManager<User> userManager;
 
         // constructor
-        public PostProcedure(IConfiguration configuration, UserManager<User> userManager)
+        public PostProcedure(IConfiguration configuration)
         {
             this.configuration = configuration;
             this.connectionString = $"Server={this.configuration["AWSMySQL_Server"]};Database={this.configuration["AWSMySQL_Database"]};user={this.configuration["AWSMySQL_Username"]};password={this.configuration["AWSMySQL_Password"]};";
-            this.userManager = userManager;
         }
 
         // generate Post ID
@@ -37,8 +31,9 @@ namespace AdopPix.Procedure
             return $"post-{string.Join("", ddmmyyyy)}{string.Join("", hhmmss)}";
         }
 
-        public async Task CreateAsync(Post entity)
+        public async Task<string> CreateAsync(Post entity)
         {
+            string id = GeneratePostId();
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 using (MySqlCommand command = connection.CreateCommand())
@@ -46,7 +41,7 @@ namespace AdopPix.Procedure
                     command.CommandText = "Post_Create";
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = GeneratePostId();
+                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = id;
                     command.Parameters.Add("@Title", MySqlDbType.VarChar).Value = entity.Title;
                     command.Parameters.Add("@Description", MySqlDbType.VarChar).Value = entity.Description;
                     command.Parameters.Add("@UserId", MySqlDbType.VarChar).Value = entity.UserId;
@@ -57,6 +52,7 @@ namespace AdopPix.Procedure
                     await connection.CloseAsync();
                 }
             }
+            return id;
         }
         public async Task CreateImageAsync(PostImage entity)
         {
@@ -67,7 +63,7 @@ namespace AdopPix.Procedure
                     command.CommandText = "Post_UploadImage";
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = GeneratePostId();
+                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = entity.PostId;
                     command.Parameters.Add("@ImageId", MySqlDbType.VarChar).Value = entity.ImageId;
                     command.Parameters.Add("@Created", MySqlDbType.DateTime).Value = entity.Created;
 

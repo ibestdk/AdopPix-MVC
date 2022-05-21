@@ -68,11 +68,11 @@ namespace AdopPix.Controllers
                 UserId = user.Id,
                 Created = time
             };
-            await postProcedure.CreateAsync(postDetail);
+            string postId = await postProcedure.CreateAsync(postDetail);
 
             PostImage postImageDetail = new PostImage
             {
-                PostId = postDetail.PostId,
+                PostId = postId,
                 Created = time,
                 ImageId = fileName
             };

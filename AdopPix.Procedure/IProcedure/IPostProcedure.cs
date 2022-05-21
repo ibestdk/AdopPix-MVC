@@ -6,7 +6,7 @@ namespace AdopPix.Procedure.IProcedure
 {
     public interface IPostProcedure
     {
-        Task CreateAsync(Post entity);
+        Task<string> CreateAsync(Post entity);
         Task CreateImageAsync(PostImage entity);
         Task<List<Post>> FindAllAsync();
         Task<Post> FindByPostId(string postId);
