@@ -107,10 +107,10 @@
                     <div class="col">
                         <div class="row justify-content-center">
                             <div class="col-3">
-                                <button class="btn btn-primary">Like</button>
+                                <a class="btn btn-primary" asp-action="Like" asp-route-postId="@data.PostId">Like</a>
                             </div>
                             <div class="col-4">
-                                Like : 0
+                                Like : @data.LikeCount
                             </div>
                         </div>
                     </div>

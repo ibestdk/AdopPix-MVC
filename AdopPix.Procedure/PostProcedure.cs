@@ -321,28 +321,58 @@ namespace AdopPix.Procedure
             }
         }
 
-        public async Task CheckLikeStatusById(PostLike postLike)
+        public async Task<PostLike> CheckLikeStatusById(string postId,string userId)
         {
+            PostLike postLike = null;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 using (MySqlCommand command = connection.CreateCommand())
                 {
                     command.CommandText = "Post_ReadStatusLike";
                     command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = postId;
+                    command.Parameters.Add("@UserId", MySqlDbType.VarChar).Value = userId;
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        postLike = new PostLike
+                        {
+                            UserId = reader["UserId"].ToString(),
+                            PostId = reader["PostId"].ToString(),
+
+                        };
+                    }
+                    await connection.CloseAsync();
                 }
             }
+            return postLike;
         }
 
-        public async Task ShowLikeById(PostLike postLike)
+        public async Task<int> ShowLikeById(string postId)
         {
+            int count = 0;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 using (MySqlCommand command = connection.CreateCommand())
                 {
                     command.CommandText = "Post_ShowLike";
                     command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@PostId", MySqlDbType.VarChar).Value = postId;
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        count = Convert.ToInt32(reader["countLike"]);
+                    }
+                    await connection.CloseAsync();
                 }
             }
+            return count;
         }
 
         /*public async Task CreateCommentAsync(PostComment postComment)

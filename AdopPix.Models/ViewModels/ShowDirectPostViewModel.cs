@@ -10,6 +10,7 @@ namespace AdopPix.Models.ViewModels
         public string PostId { get; set; }
         public string UserName { get; set; }
         public string UserId { get; set; }
+        public int LikeCount { get; set; }
         public DateTime Create { get; set; }    
     }
 }

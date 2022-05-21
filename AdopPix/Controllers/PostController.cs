@@ -123,6 +123,7 @@ namespace AdopPix.Controllers
             var user = await userManager.FindByIdAsync(post.UserId);
             var image = await postProcedure.FindImageByPostIdAsync(id);
             var allImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
+            var like = await postProcedure.ShowLikeById(id);
 
             ShowDirectPostViewModel showDirectPostViewModel = new ShowDirectPostViewModel
             {
@@ -132,8 +133,8 @@ namespace AdopPix.Controllers
                 UserName = user.UserName,
                 ImageName = image.ImageId,
                 UserId =post.UserId,
-                Create = post.Created
-          
+                Create = post.Created,
+                LikeCount = like
             };
 
             ViewData["Post"] = showDirectPostViewModel;
@@ -225,19 +226,35 @@ namespace AdopPix.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Like(PostLike postlike)
+        public async Task<IActionResult> Like(string postId)
         {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
             var user = await userManager.FindByNameAsync(User.Identity.Name);
-            var posts = await postProcedure.FindByPostId(postlike.PostId);
+            var posts = await postProcedure.FindByPostId(postId);
 
-            PostLike postLikeDetail = new PostLike
+            var likeStatus = await postProcedure.CheckLikeStatusById(posts.PostId, user.Id);
+            
+            if (likeStatus != null)
             {
-                PostId = posts.PostId,
-                UserId = user.Id,
-                Created = DateTime.Now
-            };
-            await postProcedure.LikeAsync(postLikeDetail);
-            return Redirect($"/Post/{postlike.PostId}");
+                PostLike postLikeDetail = new PostLike
+                {
+                    PostId = posts.PostId,
+                    UserId = user.Id,
+                };
+                await postProcedure.UnLikeAsync(postLikeDetail);
+                return RedirectToAction("Post", "illustration", new { id = postId });
+            }
+            else
+            {
+                PostLike postLikeDetail = new PostLike
+                {
+                    PostId = posts.PostId,
+                    UserId = user.Id,
+                    Created = DateTime.Now
+                };
+                await postProcedure.LikeAsync(postLikeDetail);
+                return RedirectToAction("Post", "illustration", new { id = postId });
+            }
         }
 
     }
