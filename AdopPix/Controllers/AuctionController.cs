@@ -155,8 +155,9 @@ namespace AdopPix.Controllers
                 maxBidUsername = maxBidUser.UserName;
                 lastPrice = bidData.Amount;
             }
-            
-            
+
+            var bidHistories = await auctionBidProcedure.FindByAuctionId(aucId);
+
             AuctionViewModel auction = new AuctionViewModel
             {
                 AvaterName = userProfiles.AvatarName,
@@ -172,6 +173,7 @@ namespace AdopPix.Controllers
                 Created = auctionpost.Created,
                 ImageId = auctionimage.ImageId,
                 LastBid = maxBidUsername,
+                BidHistories = bidHistories
             };
 
             ViewBag.WinningBid = false;
@@ -191,6 +193,11 @@ namespace AdopPix.Controllers
                 ViewBag.ErrorBid = TempData["ErrorBid"];
             }
 
+            ViewBag.AuctionTimeOut = false;
+            if (auctionpost.StopTime < DateTime.Now)
+            {
+                ViewBag.AuctionTimeOut = true;
+            }
             return View(auction);
         }
 
