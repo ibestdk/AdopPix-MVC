@@ -173,7 +173,8 @@ namespace AdopPix.Controllers
                 Created = auctionpost.Created,
                 ImageId = auctionimage.ImageId,
                 LastBid = maxBidUsername,
-                BidHistories = bidHistories
+                BidHistories = bidHistories,
+                Status = auctionpost.Status
             };
 
             ViewBag.WinningBid = false;
@@ -340,7 +341,7 @@ namespace AdopPix.Controllers
                     Created = createdAt,
                 };
 
-                auction.Status = 0;
+                auction.Status = 1;
                 
                 await auctionBidProcedure.Create(auctionBid);
             }

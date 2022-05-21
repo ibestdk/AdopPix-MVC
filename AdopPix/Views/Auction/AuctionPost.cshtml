@@ -93,7 +93,7 @@
                 <div>
                     <div>
                         <div style="text-align: right;font-family: 'Roboto';font-style: normal;font-weight: 900;font-size: 48px;line-height: 56px;color: #A0D1BA;">
-                            @if (ViewBag.WinningBid)
+@*                         @if (ViewBag.WinningBid)
                             {
                                 <p style="font-size: 33px;" id="bidAmount">การประมูลจบลงแล้ว</p>
                             }
@@ -107,8 +107,22 @@
                                 {
                                     <p style="font-size: 33px;" id="bidAmount">@Model.Price</p>
                                 }
-                            }
+                            } *@
+                            
 
+                              @if (Model.Status == 0)
+                                {
+                                    <p style="font-size: 33px;" id="bidAmount">การประมูลยังไม่เริ่ม</p>
+                                }
+                                @if(Model.Status == 1)
+                                {
+                                    <p style="font-size: 33px;" id="bidAmount">@Model.Price</p>
+                                }
+
+                            @if (Model.Status == 2)
+                            {
+                                <p style="font-size: 33px;" id="bidAmount">การประมูลจบลงแล้ว</p>
+                            }
 
                         </div>
                         <hr style="margin-top: 0px;margin-bottom: 0px;" />
@@ -225,19 +239,44 @@
     })
 </script>
 
-@if (Model.StopTime == Convert.ToDateTime(null) || ViewBag.WinningBid || Model.StopTime < DateTime.Now)
+@if (Model.StopTime == Convert.ToDateTime(null)  && Model.StopTime < DateTime.Now)
 {
-    <script>
+    @if (ViewBag.WinningBid)
+    {
+            <script>
         document.getElementById('hh').innerHTML = '00';
         document.getElementById('mm').innerHTML = '00';
         document.getElementById('ss').innerHTML = '00';
 
         document.getElementById("bidAmount").innerHTML = 'การประมูลจบลงแล้ว';
-    </script>
+        </script>
+    }
+    else
+    {
+        <script>
+        document.getElementById('hh').innerHTML = '00';
+        document.getElementById('mm').innerHTML = '00';
+        document.getElementById('ss').innerHTML = '00';
+        </script>
+    }
+
+
 }
 else
 {
-    <script>
+    @if(Model.Status == 2)
+    {
+         <script>
+        document.getElementById('hh').innerHTML = '00';
+        document.getElementById('mm').innerHTML = '00';
+        document.getElementById('ss').innerHTML = '00';
+
+        document.getElementById("bidAmount").innerHTML = 'การประมูลจบลงแล้ว';
+        </script>
+    }
+    else
+    {
+            <script>
 
         // Set the date we're counting down to
         console.log()
@@ -262,6 +301,8 @@ else
             }
         }, 1000);
     </script>
+    }
+
 }
 
 <script>

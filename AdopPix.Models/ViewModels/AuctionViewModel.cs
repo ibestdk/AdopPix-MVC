@@ -9,6 +9,7 @@ namespace AdopPix.Models.ViewModels
         public string UserId { get; set; }
         public string Title { get; set; }
         public int HourId { get; set; }
+        public int Status { get; set; }
         public decimal OpeningPrice { get; set; }
         public string LastBid { get; set; }
         public decimal Price { get; set; }
