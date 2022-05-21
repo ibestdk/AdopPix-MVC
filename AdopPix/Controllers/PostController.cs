@@ -16,12 +16,14 @@ namespace AdopPix.Controllers
     [Authorize]
     public class PostController : Controller
     {
+        // แทน i procedure แบบย่อ
         private readonly INavbarService navbarService;
         private readonly IPostProcedure postProcedure;
         private readonly UserManager<User> userManager;
         private readonly IImageService imageService;
         private readonly IAuctionProcedure auctionProcedure;
 
+        // แทน procedure แบบย่อ
         public PostController(IPostProcedure post,
                               INavbarService navbarService,
                               UserManager<User> userManager,
@@ -35,6 +37,7 @@ namespace AdopPix.Controllers
             this.auctionProcedure = auctionProcedure;
         }
 
+        // กำหนด http
         [HttpGet("Post/Create")]
         public async Task<IActionResult> Create()
         {
@@ -42,40 +45,52 @@ namespace AdopPix.Controllers
             return View();
         }
 
+
         [HttpPost]
+        // สร้างโพส รับ title , description , รูป
         public async Task<IActionResult> Create(string Title, string Description, IFormFile Image)
         {
+            // กำหนดนามสกุลรูป ลง list extension
             string[] extension = { ".png", ".jpg" };
             string fileName = string.Empty;
+            // เงื่อนไข หากได้รับข้อมูลเข้ามา ให้นำชื่อรูปใส่ลง fileName
             if (imageService.ValidateExtension(extension, Image))
             {
                 fileName = await imageService.UploadImageAsync(Image);
             }
+            // หากไม่มี ให้แจ้งเตือนว่าไม่ซัพพอท แล้วรีเทิน
             else
             {
                 ModelState.AddModelError("AvatarFile", "We support .png, .jpg");
                 return View();
             }
+            // กำหนดเวลาปัจจุบันลง time
             DateTime time = DateTime.Now;
+            // หา user ปัจจุบัน ว่าเป็นใครที่กำลังใช้งานอยู่
             var user = await userManager.FindByNameAsync(User.Identity.Name);
+            // กำหนดตัวแปร โดยเอาตัวแปรใน Post Model เป็นหลัก มาใส่ค่า ไว้ส่งให้ DB
             Post postDetail = new Post
             {
+                // นำค่าที่รับเข้ามาแต่ละอันใส่เข้าไปใน postDetail
                 Title = Title,
                 Description = Description,
                 UserId = user.Id,
                 Created = time
             };
+            // เรียกใช้ CreateAsync ของ PostProcedure โดยส่ง postDetail ไป 
             await postProcedure.CreateAsync(postDetail);
-
+            // กำหนดตัวแปร โดยเอาตัวแปรใน PostImage Model เป็นหลัก มาใส่ค่า ไว้ส่งให้ DB
             PostImage postImageDetail = new PostImage
             {
                 PostId = postDetail.PostId,
                 Created = time,
                 ImageId = fileName
             };
+            // เรียกใช้ CreateImageAsync ของ PostProcedure โดยส่ง postImageDetail ไป
             await postProcedure.CreateImageAsync(postImageDetail);
+            // โหลด service ของ navbar 
             ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
-
+            // พากลับไปหน้า แสดงผลงานทั่วไป
             return Redirect("/illustration");
         }
 
