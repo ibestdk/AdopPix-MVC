@@ -12,8 +12,8 @@
                 <form>
                     <div style="  border-radius: 30px;background: #ECECEC; padding: 4px 20px;width: 450px;">
                         <i class="fa-solid fa-magnifying-glass" style="color:#B7B7B7;"></i>
-                        <input class="" style="border: none;background: none; width: 90%;"/>
-                        <input type="submit" value="" style="border: none;background: none;"/>
+                        <input class="" style="border: none;background: none; width: 90%;" />
+                        <input type="submit" value="" style="border: none;background: none;" />
 
                     </div>
                 </form>
@@ -22,12 +22,12 @@
 
             </div>
         </div>
-        <div style="display: flex; margin-right: 20px;"> 
+        <div style="display: flex; margin-right: 20px;">
             <a class="menu-list" asp-controller="Auction" asp-action="Index">
                 Auction
             </a>
-            <a  class="menu-list" asp-controller="Post" asp-action="Index">
-               illustration
+            <a class="menu-list" asp-controller="Post" asp-action="Index">
+                illustration
             </a>
             <a class="post-btn" asp-controller="Home" asp-action="Post">
                 Post
@@ -41,6 +41,16 @@
                     <i class="fa-regular fa-bell fa-xl" style="color: #B7B7B7;"></i>
                 </button>
                 <ul class="dropdown-menu m-3 dropdown-menu-end notification-menu overflow-auto" aria-labelledby="Notification" id="NotificationPush">
+                    <li>
+                        <div style="margin-left: 30px;font-size: 1rem;font-weight: 700;margin-top: 10px; display: flex;">
+                            <p style="margin-right:10px">
+                                <i class="fa-solid fa-bell"></i>
+                            </p>
+                            <p >Notification</p>
+                        </div>
+                        
+                    </li>
+                    <hr style="margin: 0;"/>
 
                     @if (Model.Notifications.Count == 0 || Model.Notifications == null)
                     {
@@ -53,7 +63,7 @@
                         @foreach (var notification in Model.Notifications)
                         {
                             <li>
-                                <a href="@notification.RedirectToUrl" class="notification-a dropdown-item" style="overflow:hidden;">
+                                <a href="@notification.RedirectToUrl" class="notification-a dropdown-item pt-3" style="overflow:hidden;">
                                     <div class="notification-item">
                                         <div>
                                             <img src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{notification.AvatarName}")" width="50" style="border-radius:50%" />
@@ -71,7 +81,7 @@
                 </ul>
             </div>
             <div class="dropdown">
-                <button class="profileIco btn bg-transparent dropdown-toggle" type="button" id="Menu" data-bs-toggle="dropdown" aria-expanded="false" >
+                <button class="profileIco btn bg-transparent dropdown-toggle" type="button" id="Menu" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{Model.AvatarName}")" width="30" style="border-radius:50%" />
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="Menu">
@@ -132,91 +142,110 @@
 <style>
 
 
-    .navbar-logo{
+    .navbar-logo {
         font-size: 1.8rem;
         font-weight: 700;
         color: #4F9FDA !important;
     }
-    .post-btn{
+
+    .post-btn {
         border: 2px solid #D5D5D5;
-padding: 5px 15px;
-border-radius: 10px;
-text-align: center;
-margin: 0 !important;
-color: #B7B7B7;
-font-size: 1rem;
-font-weight: 700;
-  text-decoration: none;
-}
-    
-
-    .menu-list{
-          text-decoration: none;
-
-margin: 0;
-margin-right: 0px;
-font-size: 1.3rem;
-font-weight: 600;
-color: #BBB;
-margin-right: 30px;
-margin-top: 2px;
+        padding: 5px 15px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 0 !important;
+        color: #B7B7B7;
+        font-size: 1rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: .5s all;
+    }   
+    .post-btn:hover {
+        border: 2px solid #4F9FDA !important;
+        color: #4F9FDA !important;
+        transition: .5s all;
     }
+
+
+    .menu-list {
+        text-decoration: none;
+        margin: 0;
+        margin-right: 0px;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #BBB;
+        margin-right: 30px;
+        margin-top: 2px;
+        transition: .5s all;
+    }   
+    .menu-list:hover {
+        color: #4F9FDA !important;
+        transition: .5s all;
+    }
+
     .text {
-   overflow: hidden;
-   text-overflow: ellipsis;
-   display: -webkit-box;
-   line-height: 40px;     /* fallback */
-   max-height: 32px;      /* fallback */
-   -webkit-line-clamp: 1; /* number of lines to show */
-   -webkit-box-orient: vertical;
-}
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-height: 40px; /* fallback */
+        max-height: 32px; /* fallback */
+        -webkit-line-clamp: 1; /* number of lines to show */
+        -webkit-box-orient: vertical;
+    }
 
-.cut-text { 
-  text-overflow: ellipsis;
-  overflow: hidden; 
-  width: 190px; 
-  height: 1.4em; 
-  white-space: nowrap;
-}
+    .cut-text {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 190px;
+        height: 1.4em;
+        white-space: nowrap;
+    }
 
-.notification{
-    border-radius: 50px;height: 50px;width: 50px;
-}
+    .notification {
+        border-radius: 50px;
+        height: 50px;
+        width: 50px;
+    }
 
-.profileIco{
-    border-radius: 50px;height: 55px;width: 55px;
-}
-.navbar-logo{
+    .profileIco {
+        border-radius: 50px;
+        height: 55px;
+        width: 55px;
+    }
 
-}
+    .navbar-logo {
+    }
 
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-    outline: none;
-}
-input.middle:focus {
-    outline-width: 0;
-}
-*:focus {
-    outline: none;
-}
-.form-control:focus{
-    box-shadow: none;
-}
+    input:focus,
+    select:focus,
+    textarea:focus,
+    button:focus {
+        outline: none;
+    }
+
+    input.middle:focus {
+        outline-width: 0;
+    }
+
+    *:focus {
+        outline: none;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+    }
 
 </style>
