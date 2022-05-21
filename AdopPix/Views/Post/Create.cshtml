@@ -11,29 +11,50 @@
 
     <div>
         <p style="text-align: center;">
-            <img id="blah" class="image" src="@Url.Content($"https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/cover-default.jpg")" style="height: 500px;width: auto; object-fit: cover;" />
+            <img id="blah" class="image" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/upload.png")" style="height: 500px;width: auto; object-fit: cover;" />
         </p>
     </div>
 
 
     <form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data" style="width: 430px;margin: auto;">
         <div class="mb-3">
-            <label for="image">Select image :</label>
+            <h4 for="image">Select image</h4>
             <input type="file" id="image" name="Image" accept="image/*" class="form-control" required>
         </div>
 
 
 
         <div class="mb-3">
-            <label for="title">Title</label>
+            <h4 for="title">Title</h4>
             <input type="text" id="title" name="Title" class="form-control" required />
         </div>
         <div class="mb-3">
-            <label for="description">Description</label>
+            <h4 for="description">Description</h4>
             <input type="text" id="description" name="Description" class="form-control" required />
         </div>
+         <h4 style="text-align:center;">
+                        Website Rules and Agreements 
+                    </h4>
+            <div style="padding: 30px;border-radius: 20px;background: #F1F1F1;font-size: 0.8rem;font-weight: 600;color: #333333; margin-bottom:40px">
+                <p style="  text-indent: 50px;">
+                    การลงผลงานในทุกรูปแบบจะต้องอยู่ในกฏการใช้งานของทางเว็บไซต์หากผิดกับเงื่อนไขการใช้งานหรือ กฏที่มี  ทางเว็บไซต์จะมีสิทธิ์ในการระงับผลงานดังกล่าวรวมถึงผู้ใช้ที่กระทำผิดโดยที่มิต้องแจ้งล่วงหน้าโดย ทันที หากมีการระงับบัญชีผู้ใช้ที่มีความผิดอย่างถาวร currency ของเว็บที่ผู้ใช้ถือไว้จะถือว่าเป็นผลประโยชน์ ของเว็บไซต์ทันที 
+                </p>
+                <p style="  text-indent: 50px;">
+                    หากผลงานมีความเฉพาะเจาะจงกับความชอบของผู้ใช้บางกลุ่ม หรือมีความเสี่ยง สามารถลด ความเสี่ยงได้โดยการเพิ่ม Tag (warning) ที่มี Sensor ให้กับ content เฉพาะเจาะจง แต่ไม่ขัดกับกฏของ เว็บไซต์
+                </p>
+                <p style="  text-indent: 50px;">
+                    กฏของเว็บไซต์จะสามารถเปลี่ยนแปลงได้ตลอดเวลา และหากมีการเปลี่ยนแปลงกฏ จะมีการลงโทษ ย้อนหลัง โดยการลงโทษจะขึ้นอยู่กับดุลยพินิจของผู้ดูแล โดยที่การลงโทษที่ต่ำที่สุดคือระงับ content ดังกล่าวออกจากระบบ
+                </p>
+                <p style="  text-indent: 50px;">
+                    ทั้งนี้ หากมีการกระทำผิดภายนอกเว็บไซต์ หรือนอกเหนือการดูแลของระบบทางเว็บไซต์จะไม่มีส่วน เกี่ยวข้องกับผู้ใช้ที่กระทำผิด พร้อมทั้งยินยอมการให้การ ช่วยเหลือกับทางเจ้าหน้าที่โดยการเข้าถึงข้อมูล ผู้ใช้ที่กระทำผิดได้โดยทันที ผ่าน ระบบกฏหมาย
+                </p>
+            </div>
+
+
         <div class="mb-3">
-            <input type="submit" class="btn btn-success" value="Submit" />
+            <p style="text-align:center;">
+            <input type="submit" class="btn-create" value="agree to the terms and post" />
+            </p>
         </div>
     </form>
 
@@ -49,3 +70,19 @@
         }
     }
 </script>
+
+<style>
+    .btn-create{
+                border-radius: 50px;
+        padding: 13px 16px;
+        border: none;
+        background: #0096fa;
+        color: white;
+        font-size: 1rem;
+        font-weight: 700;
+        transition: .5s all;
+    }
+        .btn-create:hover {
+        opacity: 0.8;
+        transition: .5s all;
+    }</style>

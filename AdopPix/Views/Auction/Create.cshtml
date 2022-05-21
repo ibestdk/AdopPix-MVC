@@ -4,7 +4,7 @@
 
         <div>
             <p style="text-align: center;">
-                <img id="blah" class="image" src="@Url.Content($"https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/cover-default.jpg")" style="height: 500px;width: auto; object-fit: cover;" />
+                <img id="blah" class="image" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/upload.png")" style="height: 500px;width: auto; object-fit: cover;" />
             </p>
 
         </div>
@@ -16,7 +16,7 @@
         <form asp-action="Create" method="post" enctype="multipart/form-data" style="width: 430px;margin: auto;">
                  
                     <div class="mb-3">
-                            <label class="form-label">Image</label>
+                            <h4 class="form-label">Image</h4>
                             <input type="file" asp-for="@Model.AuctionFile" class="form-control" id="imgInp" />
                             <input type="hidden" asp-for="@Model.ImageId" id="formFile" />
                             <span asp-validation-for="AuctionFile"></span>
@@ -29,13 +29,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label asp-for="Title" class="control-label"></label>
+                                <h4 class="form-label">Title</h4>
+                             @*   <label asp-for="Title" class="control-label"></label>*@
                                 <input asp-for="Title" class="form-control" />
                                 <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <label asp-for="Description" class="control-label"></label>
+                            <div class="form-group mt-3">
+                                <h4 class="form-label">Description</h4>
+                    @*            <label asp-for="Description" class="control-label"></label>*@
                                 <textarea asp-for="Description" class="form-control"></textarea>
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
@@ -46,7 +48,7 @@
                                 <span asp-validation-for="HourId" class="text-danger"></span>
                             </div>*@
                     <div>
-                        <label class="form-label">Hours</label>
+                        <h4 class="form-label mt-3">Hours</h4>
                         <select asp-for="HourId"  class="form-control" id="HourId" name="HourId" required>
                             <option>Select Hours for Auction</option>
                             <option asp-for="HourId" value="1">24 Hours</option>
@@ -58,13 +60,15 @@
 
                         </div>
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <label asp-for="OpeningPrice" class="control-label"></label>
+                            <div class="form-group mt-3">
+                                <h4 class="form-label">Opening Price</h4>
+                                @*<label asp-for="OpeningPrice" class="control-label"></label>*@
                                 <input value="0" asp-for="OpeningPrice" type="number" class="form-control"/>
                                 <span asp-validation-for="OpeningPrice" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="HotClose" class="control-label"></label>
+                            <div class="form-group mt-3">
+                                <h4 class="form-label">Hot Close</h4>
+                               @* <label asp-for="HotClose" class="control-label"></label>*@
                                 <input asp-for="HotClose" class="form-control" type="number"/>
                                 <span asp-validation-for="HotClose" class="text-danger"></span>
                             </div>
@@ -75,6 +79,28 @@
                     <div class="col-md-4 offset-4 text-center">
                         <img width="100%" id="ImageUrlPreview" />
                     </div>
+                    <h4 style="text-align:center;">
+                        Website Rules and Agreements 
+                    </h4>
+            <div style="padding: 30px;border-radius: 20px;background: #F1F1F1;font-size: 0.8rem;font-weight: 600;color: #333333; margin-bottom:40px">
+                <p style="  text-indent: 50px;">
+                    การลงผลงานในทุกรูปแบบจะต้องอยู่ในกฏการใช้งานของทางเว็บไซต์หากผิดกับเงื่อนไขการใช้งานหรือ กฏที่มี  ทางเว็บไซต์จะมีสิทธิ์ในการระงับผลงานดังกล่าวรวมถึงผู้ใช้ที่กระทำผิดโดยที่มิต้องแจ้งล่วงหน้าโดย ทันที หากมีการระงับบัญชีผู้ใช้ที่มีความผิดอย่างถาวร currency ของเว็บที่ผู้ใช้ถือไว้จะถือว่าเป็นผลประโยชน์ ของเว็บไซต์ทันที 
+                </p>
+                <p style="  text-indent: 50px;">
+                    หากผลงานมีความเฉพาะเจาะจงกับความชอบของผู้ใช้บางกลุ่ม หรือมีความเสี่ยง สามารถลด ความเสี่ยงได้โดยการเพิ่ม Tag (warning) ที่มี Sensor ให้กับ content เฉพาะเจาะจง แต่ไม่ขัดกับกฏของ เว็บไซต์
+                </p>
+                <p style="  text-indent: 50px;">
+                    กฏของเว็บไซต์จะสามารถเปลี่ยนแปลงได้ตลอดเวลา และหากมีการเปลี่ยนแปลงกฏ จะมีการลงโทษ ย้อนหลัง โดยการลงโทษจะขึ้นอยู่กับดุลยพินิจของผู้ดูแล โดยที่การลงโทษที่ต่ำที่สุดคือระงับ content ดังกล่าวออกจากระบบ
+                </p>
+                <p style="  text-indent: 50px;">
+                    ทั้งนี้ หากมีการกระทำผิดภายนอกเว็บไซต์ หรือนอกเหนือการดูแลของระบบทางเว็บไซต์จะไม่มีส่วน เกี่ยวข้องกับผู้ใช้ที่กระทำผิด พร้อมทั้งยินยอมการให้การ ช่วยเหลือกับทางเจ้าหน้าที่โดยการเข้าถึงข้อมูล ผู้ใช้ที่กระทำผิดได้โดยทันที ผ่าน ระบบกฏหมาย
+                </p>
+            </div>
+
+
+
+
+
 
                     <div class="form-group"><p style="text-align:center;">
                         <input type="submit" value="agree to the terms and post" class="float-right btn-create" />
@@ -119,6 +145,10 @@
         color: white;
         font-size: 1rem;
         font-weight: 700;
+        transition: .5s all;
+    }
+        .btn-create:hover {
+        opacity: 0.8;
         transition: .5s all;
     }
         .image {
@@ -179,8 +209,12 @@
         color: #4F9FDA;
         width: 222px !important;
         font-weight: bolder;
-        transition: .5s;
+        transition: .5s all;
         background: none;
+    }    
+    .save-btn:hover {
+        opacity: 0.8;
+        transition: .5s all;
     }
 
         .save-btn:hover {

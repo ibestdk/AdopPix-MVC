@@ -4,7 +4,16 @@
     ViewData["Title"] = "Courses details";
 }
 
-<div class="row" style="padding-top: 20px">
+<div style="display: flex; float: right; margin-top:20px;">
+    </p>
+    <p style="  font-size: 1.4rem; font-weight: 700; text-align: center;">
+        @Model.Money
+    </p>
+    <p style="margin-left: 10px;">
+
+        <i class="fa-solid fa-coins fa-2xl" style="color: #4F9FDA; "></i>
+</div>
+<div class="row" style="padding-top: 110px">
     <div class="">
         @if (@Model.UserName == User.Identity.Name)
         {
@@ -88,7 +97,7 @@
                     <div style="padding-top: 16px;margin: 0 10px;">
                         <h1>:</h1>
                     </div>
-                    <h1 class="Time-bg" id="ss"></h1>
+                    <h1 class="Time-bg" id="ss" style="width: 84.133px;"></h1>
                 </div>
                 <div>
                     <div>
@@ -112,21 +121,21 @@
 
                               @if (Model.Status == 0)
                                 {
-                                    <p style="font-size: 33px;" id="bidAmount">การประมูลยังไม่เริ่ม</p>
+                                    <p style="font-size: 33px; margin-bottom: 0;" id="bidAmount">การประมูลยังไม่เริ่ม</p>
                                 }
                                 @if(Model.Status == 1)
                                 {
-                                    <p style="font-size: 33px;" id="bidAmount">@Model.Price</p>
+                                    <p style="font-size: 33px; margin-bottom: 0;" id="bidAmount">@Model.Price</p>
                                 }
 
                             @if (Model.Status == 2)
                             {
-                                <p style="font-size: 33px;" id="bidAmount">การประมูลจบลงแล้ว</p>
+                                <p style="font-size: 33px; margin-bottom: 0;" id="bidAmount">การประมูลจบลงแล้ว</p>
                             }
 
                         </div>
                         <hr style="margin-top: 0px;margin-bottom: 0px;" />
-                        <div style="display: flex;flex-direction: row; float: right;margin-bottom: 30px;">
+                        <div style="display: flex;flex-direction: row; float: right;margin-bottom: 30px; ">
                             <div style="font-weight: 900;font-size: 18px;line-height: 21px;color: #8D8D8D;">
                                 By
                             </div>
@@ -145,7 +154,23 @@
 
 
                         </div>
+
                     </div>
+                </div>
+                <div style="display:flex;">
+                    <p style="text-align: end;">
+                    <div style="display:flex; margin-left: 60%;">
+
+                        <p style="margin-right: 10px">
+                            <i class="fa-solid fa-fire fa-2xl" style="color: red;"></i>
+
+                        </p>
+                        <h4 style="  font-size: 1.4rem; font-weight: 700; text-align: center;">
+                            @Model.HotClose
+
+                        </h4>
+                    </div>
+                    </p>
                 </div>
                 @if (!ViewBag.AuctionTimeOut)
                 {

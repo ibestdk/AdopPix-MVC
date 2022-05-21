@@ -143,6 +143,8 @@ namespace AdopPix.Controllers
             var userProfiles = await userProfileProcedure.FindByIdAsync(auctionpost.UserId);
             var users = await userManager.FindByIdAsync(auctionpost.UserId);
             var user = users.UserName;
+            var useridcheck = await userProfileProcedure.FindByUserNameAsync(User.Identity.Name);
+            var userMoney = await userProfileProcedure.FindByIdAsync(useridcheck.UserId);
 
             var bidData = await auctionBidProcedure.FindMaxAmountByAuctionId(aucId);
 
@@ -174,7 +176,8 @@ namespace AdopPix.Controllers
                 ImageId = auctionimage.ImageId,
                 LastBid = maxBidUsername,
                 BidHistories = bidHistories,
-                Status = auctionpost.Status
+                Status = auctionpost.Status,
+                Money = userMoney.Money
             };
 
             ViewBag.WinningBid = false;
