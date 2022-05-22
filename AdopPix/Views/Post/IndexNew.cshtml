@@ -1,17 +1,16 @@
 ﻿@model List<PostViewModel>
 <div class="row">
     <div class="col-1">
-        <a href="/illustrationNew">New</a>
+        <a class="btn btn-primary" href="/illustrationNew">New</a>
     </div>
     <div class="col-1">
         <a href="/illustrationOld">Old</a>
     </div>
-    <div class="col-1">
+        <div class="col-1">
         <a href="/illustrationLike">Like</a>
     </div>
  </div>
     <div class="grid-container">
-        
 @foreach (var item in Model){
     @foreach (var std2 in ViewData["userAuctions"] as IList<User>)
     {

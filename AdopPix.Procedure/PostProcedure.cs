@@ -108,6 +108,108 @@ namespace AdopPix.Procedure
             return posts;
         }
 
+        public async Task<List<Post>> FindAllAsyncNew()
+        {
+            List<Post> posts = new List<Post>();
+            Post post = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_FindByNew";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        post = new Post
+                        {
+                            PostId = reader["PostId"].ToString(),
+                            Title = reader["Title"].ToString(),
+                            Description = reader["Description"].ToString(),
+                            UserId = reader["UserId"].ToString(),
+                            // ตัวแปร เวลา จะต้อง Convert เป็น datetime ก่อนแล้วเอามาแปลงเป็น string
+                            Created = Convert.ToDateTime(reader["Created"])
+                        };
+                        posts.Add(post);
+                        post = null;
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+            return posts;
+        }
+
+        public async Task<List<Post>> FindAllAsyncOld()
+        {
+            List<Post> posts = new List<Post>();
+            Post post = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_FindByOld";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        post = new Post
+                        {
+                            PostId = reader["PostId"].ToString(),
+                            Title = reader["Title"].ToString(),
+                            Description = reader["Description"].ToString(),
+                            UserId = reader["UserId"].ToString(),
+                            // ตัวแปร เวลา จะต้อง Convert เป็น datetime ก่อนแล้วเอามาแปลงเป็น string
+                            Created = Convert.ToDateTime(reader["Created"])
+                        };
+                        posts.Add(post);
+                        post = null;
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+            return posts;
+        }
+
+        public async Task<List<Post>> FindAllAsyncLike()
+        {
+            List<Post> posts = new List<Post>();
+            Post post = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Post_FindByLike";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        post = new Post
+                        {
+                            PostId = reader["PostId"].ToString(),
+                            Title = reader["Title"].ToString(),
+                            Description = reader["Description"].ToString(),
+                            UserId = reader["UserId"].ToString(),
+                            // ตัวแปร เวลา จะต้อง Convert เป็น datetime ก่อนแล้วเอามาแปลงเป็น string
+                            Created = Convert.ToDateTime(reader["Created"])
+                        };
+                        posts.Add(post);
+                        post = null;
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+            return posts;
+        }
+
         public async Task<PostImage> FindImageByPostIdAsync(string postId)
         {
             // List<Post> images = new List<Post>();

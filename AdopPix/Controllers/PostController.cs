@@ -112,6 +112,93 @@ namespace AdopPix.Controllers
             return View(postViewModels);
         }
 
+        [HttpGet("illustrationNew")]
+        public async Task<IActionResult> IndexNew()
+        {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
+
+            List<PostViewModel> postViewModels = new List<PostViewModel>();
+            var posts = await postProcedure.FindAllAsyncNew();
+            var allUsers = await auctionProcedure.GetAllUserDetailAsync();
+            var allImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
+
+            foreach (var item in posts)
+            {
+
+                var image = await postProcedure.FindImageByPostIdAsync(item.PostId);
+                PostViewModel postViewModel = new PostViewModel
+                {
+                    Title = item.Title,
+                    ImageName = image.ImageId,
+                    PostId = item.PostId,
+                    UserId = item.UserId
+                };
+                postViewModels.Add(postViewModel);
+            }
+            ViewData["userAuctions"] = allUsers;
+            ViewData["userimageAuctions"] = allImagesUser;
+
+            return View(postViewModels);
+        }
+
+        [HttpGet("illustrationOld")]
+        public async Task<IActionResult> IndexOld()
+        {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
+
+            List<PostViewModel> postViewModels = new List<PostViewModel>();
+            var posts = await postProcedure.FindAllAsyncOld();
+            var allUsers = await auctionProcedure.GetAllUserDetailAsync();
+            var allImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
+
+            foreach (var item in posts)
+            {
+
+                var image = await postProcedure.FindImageByPostIdAsync(item.PostId);
+                PostViewModel postViewModel = new PostViewModel
+                {
+                    Title = item.Title,
+                    ImageName = image.ImageId,
+                    PostId = item.PostId,
+                    UserId = item.UserId
+                };
+                postViewModels.Add(postViewModel);
+            }
+            ViewData["userAuctions"] = allUsers;
+            ViewData["userimageAuctions"] = allImagesUser;
+
+            return View(postViewModels);
+        }
+
+        [HttpGet("illustrationLike")]
+        public async Task<IActionResult> IndexLike()
+        {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
+
+            List<PostViewModel> postViewModels = new List<PostViewModel>();
+            var posts = await postProcedure.FindAllAsyncLike();
+            var allUsers = await auctionProcedure.GetAllUserDetailAsync();
+            var allImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
+
+            foreach (var item in posts)
+            {
+
+                var image = await postProcedure.FindImageByPostIdAsync(item.PostId);
+                PostViewModel postViewModel = new PostViewModel
+                {
+                    Title = item.Title,
+                    ImageName = image.ImageId,
+                    PostId = item.PostId,
+                    UserId = item.UserId
+                };
+                postViewModels.Add(postViewModel);
+            }
+            ViewData["userAuctions"] = allUsers;
+            ViewData["userimageAuctions"] = allImagesUser;
+
+            return View(postViewModels);
+        }
+
         [HttpGet("Illustration/Post/{id}")]
         public async Task<IActionResult> FindById(string id = "")
         {
