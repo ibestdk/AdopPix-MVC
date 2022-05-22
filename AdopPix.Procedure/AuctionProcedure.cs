@@ -28,6 +28,9 @@ namespace AdopPix.Procedure
             string[] hhmmss = dateTime[1].Split(':');
             return $"auction-{string.Join("", ddmmyyyy)}{string.Join("", hhmmss)}";
         }
+
+        //-----------------------------------------------------------------------------------------------------------
+
         public async Task CreateAsync(Auction auction)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -54,6 +57,8 @@ namespace AdopPix.Procedure
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------------
+
         public async Task DeleteAuctionAsync(Auction auction)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -71,6 +76,8 @@ namespace AdopPix.Procedure
                 }
             }
         }
+
+        //-----------------------------------------------------------------------------------------------------------
 
         public async Task DeleteImageAsync(AuctionImage auctionImage)
         {
@@ -90,10 +97,14 @@ namespace AdopPix.Procedure
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------------
+
         public Task FindAll(Auction auction)
         {
             throw new NotImplementedException();
         }
+
+        //-----------------------------------------------------------------------------------------------------------
 
         public async Task<Auction> FindByIdAsync(string auctionId)
         {
@@ -131,6 +142,8 @@ namespace AdopPix.Procedure
             }
             return auction;
         }
+
+        //-----------------------------------------------------------------------------------------------------------
         public async Task<AuctionImage> FindImageByIdAsync(string auctionId)
         {
             AuctionImage auctionImage = null;
@@ -227,7 +240,7 @@ namespace AdopPix.Procedure
             }
         }
 
-
+        //-----------------------------------------------------------------------------------------------------------
         public async Task<List<Auction>> GetAllAsync()
         {
             List<Auction> auctions = new List<Auction>();
@@ -267,6 +280,8 @@ namespace AdopPix.Procedure
             }
             return auctions;
         }
+
+        //-----------------------------------------------------------------------------------------------------------
         public async Task<List<AuctionImage>> GetAllImageAsync()
         {
             List<AuctionImage> auctionImages = new List<AuctionImage>();
@@ -298,6 +313,41 @@ namespace AdopPix.Procedure
             return auctionImages;
         }
 
+
+        //-----------------------------------------------------------------------------------------------------------
+        public async Task<List<AuctionImage>> GetAllFromOldImageAsync()
+        {
+            List<AuctionImage> auctionImages = new List<AuctionImage>();
+            AuctionImage auctionimage = null;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "Auction_GetAllFromOldImage";
+                    command.CommandType = CommandType.StoredProcedure;
+
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        auctionimage = new AuctionImage
+                        {
+                            ImageId = reader["ImageId"].ToString(),
+                            AuctionId = reader["AuctionId"].ToString(),
+                        };
+                        auctionImages.Add(auctionimage);
+                        auctionimage = null;
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+            return auctionImages;
+        }
+
+
+        //-----------------------------------------------------------------------------------------------------------
         public async Task<List<UserProfile>> GetAllUserImageDetailAsync()
         {
             List<UserProfile> auctionUserImages = new List<UserProfile>();
@@ -328,6 +378,8 @@ namespace AdopPix.Procedure
             }
             return auctionUserImages;
         }
+
+        //-----------------------------------------------------------------------------------------------------------
         public async Task<List<User>> GetAllUserDetailAsync()
         {
             List<User> auctionImages = new List<User>();
@@ -359,7 +411,7 @@ namespace AdopPix.Procedure
             return auctionImages;
         }
 
-
+        //-----------------------------------------------------------------------------------------------------------
 
         public async Task<AuctionViewModel> FindByUserIdAsync(string userId)
         {
@@ -387,6 +439,7 @@ namespace AdopPix.Procedure
             return userProfile;
         }
 
+        //-----------------------------------------------------------------------------------------------------------
         public async Task InitialTime(string auctionId, DateTime startTime, DateTime stopTime)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -407,6 +460,7 @@ namespace AdopPix.Procedure
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------------
         public async Task WinningBidderCreate(WinningBidder entity)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -427,7 +481,7 @@ namespace AdopPix.Procedure
                 }
             }
         }
-
+        //-----------------------------------------------------------------------------------------------------------
         public async Task<WinningBidder> WinningBidderFindByAuctionId(string auctionId)
         {
             WinningBidder winningBidder = null;
@@ -460,7 +514,7 @@ namespace AdopPix.Procedure
 
             return winningBidder;
         }
-
+        //-----------------------------------------------------------------------------------------------------------
         public async Task<List<WinningBidder>> GetAllAuctionEnd()
         {
             List<WinningBidder> auctionEnds = new List<WinningBidder>();

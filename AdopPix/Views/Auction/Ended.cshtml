@@ -1,0 +1,221 @@
+﻿@model List<Auction>
+
+<div>
+    <h1>Auction | Ended</h1>
+    <div style="margin-bottom:60px; margin-top:30px;">
+        <a href="/auction/Pending" style=" font-size: 1rem;  color: white;background: lightslategray;border-radius: 5px;padding: 4px 9px; margin-right:20px;">
+            Pending
+        </a>
+        <a href="/auction/Ongoing" style=" font-size: 1rem; color: white;background: lightgreen;border-radius: 5px;padding: 4px 9px;  margin-right:20px;">
+            On going
+        </a>
+        <a href="/auction/Ended" style=" font-size: 1rem;  color: white;background: lightsalmon;border-radius: 5px;padding: 4px 9px;  margin-right:20px;">
+            Ended
+        </a>
+        <a href="/auction" style=" font-size: 1rem;  color: white;background: lightskyblue;border-radius: 5px;padding: 4px 9px;  margin-right:20px;">
+            All New lest
+        </a>
+        <a href="/auction/Old" style=" font-size: 1rem;  color: white;background: lightpink;border-radius: 5px;padding: 4px 9px;  margin-right:20px;">
+            All Old lest
+        </a>
+
+    </div>
+    <div class="grid-container">
+
+
+
+
+        @foreach (var std in ViewData["imageAuctions"] as IList<AuctionImage>)
+        {
+            @foreach (var item in Model)
+            {
+                @if(item.Status == 2)
+            {
+                @if (std.AuctionId == item.AuctionId)
+                {
+                    @foreach (var std2 in ViewData["userAuctions"] as IList<User>)
+                    {
+                            @if (std2.Id == item.UserId)
+                            {
+                                @foreach (var std3 in ViewData["userimageAuctions"] as IList<UserProfile>)
+                                {
+                                    @if (std3.UserId == item.UserId)
+                                    {
+
+                                        <a class="text-dark float-right" style="float: right;" asp-controller="Auction" asp-action="Post" asp-route-id="@item.AuctionId">
+                                            <div style="border-radius: 20px;width: 100%;height: 100%;">
+
+                                                <div>
+                                                    <p style="text-align: center;margin: 0;">
+                                                        <img draggable="false" class="img-hover" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@std.ImageId}")" style="box-shadow: 1px 1px 1px lightgray; object-fit: cover; border-radius: 25px;width: 184px;height: 184px;" />
+                                                    </p>
+                                                </div>
+                                                <div style="display: flex;">
+                                                    <div>
+                                                        <p class="text" style="padding-left: 20px;text-align: left;font-weight: bolder;font-size: 1rem;">
+                                                            @item.Title
+                                                        </p>
+                                                    </div>
+
+                                                    <div style="margin-top: 12px;">
+
+                                                        @if (item.Status == 0)
+                                                        {
+                                                            <p style=" font-size: 0.6rem;  color: white;background: lightslategray;border-radius: 5px;padding: 2px 6px;">
+                                                                Pending
+                                                            </p>
+                                                        }
+
+
+                                                        @if (item.Status == 1)
+                                                        {
+                                                            <p style=" font-size: 0.6rem; color: white;background: lightgreen;border-radius: 5px;padding: 2px 6px;">
+                                                                On going
+                                                            </p>
+                                                        }
+
+
+
+
+
+                                                        @if (item.Status == 2)
+                                                        {
+                                                            <p style=" font-size: 0.6rem;  color: white;background: lightsalmon;border-radius: 5px;padding: 2px 6px;">
+                                                                Ended
+                                                            </p>
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                                <div style=" display: flex; flex-direction: row; padding: 0 20px;margin-top: -12px;font-size: 1rem;font-weight: bold;">
+                                                    <div>
+                                                        <p>
+                                                            <img draggable="false" oncontextmenu="return false;" src="@Url.Content($"https://adoppix.s3.ap-southeast-1.amazonaws.com/{@std3.AvatarName}")" style="border-radius: 50%; width: 24px; height: 24px; object-fit: cover; border:1px solid #EDEDED;top: 24%;background: white;" id="blah" />
+                                                        </p>
+
+                                                    </div>
+                                                    <div>
+                                                        <p>
+                                                            @std2.UserName
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </a>
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+    </div>
+</div>
+
+
+<style>
+
+
+    a {
+        text-decoration: none;
+        color: black;
+        transition: .5s all;
+    }
+
+        a:hover {
+            opacity: 0.8;
+            color: #878787;
+            transition: .5s all;
+        }
+
+
+
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto;
+        gap: 10px;
+        /*background-color: #2196F3; */
+        padding: 10px;
+    }
+
+        .grid-container > div {
+            /* background-color: rgba(255, 255, 255, 0.8); */
+            text-align: center;
+            padding: 20px 0;
+            font-size: 30px;
+        }
+
+
+    .text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-height: 40px; /* fallback */
+        max-height: 32px; /* fallback */
+        -webkit-line-clamp: 1; /* number of lines to show */
+        -webkit-box-orient: vertical;
+        padding: 0 20px;
+        width: 141px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus,
+    button:focus {
+        outline: none;
+    }
+
+    input.middle:focus {
+        outline-width: 0;
+    }
+
+
+    img {
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        -ms-user-drag: none;
+        user-drag: none;
+        pointer-events: none;
+    }
+
+    img {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+    }
+
+</style>

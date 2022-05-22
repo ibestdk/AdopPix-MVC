@@ -66,6 +66,92 @@ namespace AdopPix.Controllers
 
             return View(allAuctions);
         }
+        //-----------------------------------------------------------------------------------------------------------
+        [HttpGet("Auction/Ended")]
+        public async Task<IActionResult> Ended()
+        {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
+
+
+            var allAuctions = await auctionProcedure.GetAllAsync();
+            var allAuctionEnds = await auctionProcedure.GetAllAuctionEnd();
+            var allAuctionImages = await auctionProcedure.GetAllImageAsync();
+            var allAuctionUsers = await auctionProcedure.GetAllUserDetailAsync();
+            var allAuctionImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
+
+            ViewData["imageAuctions"] = allAuctionImages;
+            ViewData["userAuctions"] = allAuctionUsers;
+            ViewData["userimageAuctions"] = allAuctionImagesUser;
+            ViewData["AuctionsEnds"] = allAuctionEnds;
+
+
+            return View(allAuctions);
+        }
+
+        //-----------------------------------------------------------------------------------------------------------
+        [HttpGet("Auction/Pending")]
+        public async Task<IActionResult> Pending()
+        {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
+
+
+            var allAuctions = await auctionProcedure.GetAllAsync();
+            var allAuctionEnds = await auctionProcedure.GetAllAuctionEnd();
+            var allAuctionImages = await auctionProcedure.GetAllImageAsync();
+            var allAuctionUsers = await auctionProcedure.GetAllUserDetailAsync();
+            var allAuctionImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
+
+            ViewData["imageAuctions"] = allAuctionImages;
+            ViewData["userAuctions"] = allAuctionUsers;
+            ViewData["userimageAuctions"] = allAuctionImagesUser;
+            ViewData["AuctionsEnds"] = allAuctionEnds;
+
+
+            return View(allAuctions);
+        }
+
+        //-----------------------------------------------------------------------------------------------------------
+        [HttpGet("Auction/Ongoing")]
+        public async Task<IActionResult> Ongoing()
+        {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
+
+
+            var allAuctions = await auctionProcedure.GetAllAsync();
+            var allAuctionEnds = await auctionProcedure.GetAllAuctionEnd();
+            var allAuctionImages = await auctionProcedure.GetAllImageAsync();
+            var allAuctionUsers = await auctionProcedure.GetAllUserDetailAsync();
+            var allAuctionImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
+
+            ViewData["imageAuctions"] = allAuctionImages;
+            ViewData["userAuctions"] = allAuctionUsers;
+            ViewData["userimageAuctions"] = allAuctionImagesUser;
+            ViewData["AuctionsEnds"] = allAuctionEnds;
+
+
+            return View(allAuctions);
+        }      
+        //-----------------------------------------------------------------------------------------------------------
+        [HttpGet("Auction/Old")]
+        public async Task<IActionResult> Old()
+        {
+            ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(User.Identity.Name);
+
+
+            var allAuctions = await auctionProcedure.GetAllAsync();
+            var allAuctionEnds = await auctionProcedure.GetAllAuctionEnd();
+            var allAuctionImages = await auctionProcedure.GetAllFromOldImageAsync();
+            var allAuctionUsers = await auctionProcedure.GetAllUserDetailAsync();
+            var allAuctionImagesUser = await auctionProcedure.GetAllUserImageDetailAsync();
+
+            ViewData["imageAuctions"] = allAuctionImages;
+            ViewData["userAuctions"] = allAuctionUsers;
+            ViewData["userimageAuctions"] = allAuctionImagesUser;
+            ViewData["AuctionsEnds"] = allAuctionEnds;
+
+
+            return View(allAuctions);
+        }
 
         //-----------------------------------------------------------------------------------------------------------
         public async Task<IActionResult> Create()
@@ -236,6 +322,9 @@ namespace AdopPix.Controllers
             return View(edit);
         }
 
+
+        //-----------------------------------------------------------------------------------------------------------
+
         [HttpPost]
         public async Task<IActionResult> Edit(AuctionViewModel model)
         {
@@ -289,7 +378,9 @@ namespace AdopPix.Controllers
             await auctionProcedure.DeleteAuctionAsync(post);
 
             return Redirect("/Auction");
-        }
+        }        //-----------------------------------------------------------------------------------------------------------
+
+        //-----------------------------------------------------------------------------------------------------------
 
         [HttpPost("Auction/Bid/{auctionId}")]
         public async Task<IActionResult> BidByAuctionId(string auctionId, int amount)

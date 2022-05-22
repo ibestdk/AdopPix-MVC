@@ -32,5 +32,7 @@ namespace AdopPix.Procedure.IProcedure
         Task WinningBidderCreate(WinningBidder entity);
         Task<WinningBidder> WinningBidderFindByAuctionId(string auctionId);
         Task<List<WinningBidder>> GetAllAuctionEnd();
+
+        Task<List<AuctionImage>> GetAllFromOldImageAsync();
     }
 }
