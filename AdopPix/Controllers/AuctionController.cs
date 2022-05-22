@@ -262,6 +262,12 @@ namespace AdopPix.Controllers
         [HttpGet("Auction/Delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
+            var bids = await auctionBidProcedure.FindByAuctionId(id);
+            var winning = await auctionProcedure.WinningBidderFindByAuctionId(id);
+            if(bids != null || winning != null)
+            {
+                return Redirect($"/Auction/Post/{id}");
+            }
             // หาว่าต้องลบโพสไหน
             var post = await auctionProcedure.FindByIdAsync(id);
             // หาว่าต้องลบภาพจากโพสไหน

@@ -33,12 +33,15 @@
                                     Edit Auction
                                 </a>
                             </li>
-                            <li class="li-more" style="  padding: 5px 10px;height: 50px;}">
-                                <a style="padding: 5px 10px;font-size: 1.4rem;" href="#popup1">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                    Delete Auction
-                                </a>
-                            </li>
+                            @if (Model.BidHistories == null)
+                            {
+                                <li class="li-more" style="  padding: 5px 10px;height: 50px;}">
+                                    <a style="padding: 5px 10px;font-size: 1.4rem;" href="#popup1">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                        Delete Auction
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
