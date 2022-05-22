@@ -1,8 +1,10 @@
 ﻿using AdopPix.Models;
+using AdopPix.Models.ViewModels;
 using AdopPix.Procedure.IProcedure;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -42,6 +44,40 @@ namespace AdopPix.Procedure
                     await connection.CloseAsync();
                 }
             }
+        }
+
+        public async Task<List<PaymentViewModel>> FindByUserIdAsync(string userId)
+        {
+            List<PaymentViewModel> results = new List<PaymentViewModel>();
+            using (MySqlConnection connection = new MySqlConnection(this.connectionString))
+            {
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "PaymentLogging_FindByUserId";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@UserId", MySqlDbType.VarChar).Value = userId;
+
+                    await connection.OpenAsync();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        PaymentViewModel paymentLogging = new PaymentViewModel
+                        {
+                            Name = reader["Name"].ToString(),
+                            Amount = Convert.ToDecimal(reader["Amount"]),
+                            Currency = reader["Currency"].ToString(),
+                            Created = Convert.ToDateTime(reader["Created"])
+                        };
+                        results.Add(paymentLogging);
+                    }
+                    await connection.CloseAsync();
+                }
+            }
+
+            if (results.Count == 0) return null;
+
+            return results;
         }
     }
 }

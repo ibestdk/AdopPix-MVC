@@ -44,10 +44,13 @@ namespace AdopPix.Controllers
 
             ViewData["NavbarDetail"] = await navbarService.FindByNameAsync(user.UserName);
 
+            var logging = await paymentLoggingProcedure.FindByUserIdAsync(user.Id);
+
             TopUpViewModel topUpViewModel = new TopUpViewModel
             {
                 CurrentMoney = userProfile.Money,
                 Money = 0,
+                Log = logging
             };
 
             return View(topUpViewModel);

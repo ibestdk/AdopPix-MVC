@@ -36,6 +36,28 @@
     
 </form>
 </div>
+@if(Model.Log != null)
+{
+    <div class="payment-container">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Created</th>
+            </tr>
+            @foreach (var item in Model.Log)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Amount</td>
+                    <td>@item.Currency</td>
+                    <td>@item.Created.ToString("dddd, dd MMMM yyyy hh:mm:ss")</td>
+                </tr>
+            }
+        </table>
+    </div>
+}
 
 <script type="text/javascript" src="https://cdn.omise.co/omise.js">
 </script>
@@ -69,14 +91,21 @@
     });
 </script>
 <style>
-    body{
-       background:url('https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/bg-topup.jpg') no-repeat !important;  
-}
-
+/*    body {
+        background: url('https://adoppixstorage.s3.ap-southeast-1.amazonaws.com/bg-topup.jpg') no-repeat !important;
+    }
+*/
 footer{
     display:none;
 }
-
+.payment-container {
+    display: flex;
+    justify-content: center;
+}
+td, th {
+  border: 1px solid #dddddd;
+  padding: 8px;
+}
 .box-controller{
     height: 424px;
     background: rgba(255, 255, 255, 0.9);
