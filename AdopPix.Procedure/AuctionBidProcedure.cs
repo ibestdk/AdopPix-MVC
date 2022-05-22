@@ -71,6 +71,10 @@ namespace AdopPix.Procedure
                     await connection.CloseAsync();
                 }
             }
+            if(results.Count == 0)
+            {
+                return null;
+            }
             return results;
         }
 
